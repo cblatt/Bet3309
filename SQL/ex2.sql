@@ -40,12 +40,12 @@ CREATE TABLE Team (
 
 CREATE TABLE Game(
 	game_id VARCHAR(50) NOT NULL,
-	game_day DATE,
+	game_day VARCHAR(50) NOT NULL,
 	game_time VARCHAR(5),
-    away_team VARCHAR(50) NOT NULL,
-    away_score INT,
-	home_team VARCHAR(50) NOT NULL,
-	home_score INT,
+    away_team VARCHAR(3) NOT NULL,
+    away_score VARCHAR(3),
+	home_team VARCHAR(3) NOT NULL,
+	home_score VARCHAR(3),
 	PRIMARY KEY(game_id),
 	FOREIGN KEY(home_team) REFERENCES Team(team_abbrev),
 	FOREIGN KEY(away_team) REFERENCES Team(team_abbrev)
