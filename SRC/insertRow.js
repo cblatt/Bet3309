@@ -1,6 +1,13 @@
 const connection = require("./db.js");
 const mysql = require("mysql");
 
+function emptytoNull(data) {
+  if (data == "") {
+    data = null;
+  }
+  return data;
+}
+
 function insertRow(data, table) {
   let insertQuery = "";
   let query = null;
@@ -63,43 +70,108 @@ function insertRow(data, table) {
       data.game_day,
       data.game_time,
       data.away_team,
-      data.away_score,
+      emptytoNull(data.away_score),
       data.home_team,
-      data.home_score,
+      emptytoNull(data.home_score),
     ]);
-  } else if (table == "Tracks") {
-    insertQuery =
-      "INSERT INTO ?? (??,??,??,??,??,??,??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  } else if (table == "TeamAbbreviation") {
+    insertQuery = "INSERT INTO ?? (??,??) VALUES (?,?)";
     query = mysql.format(insertQuery, [
-      "Tracks",
-      "track_id",
-      "album_id",
-      "album_title",
-      "artist_id",
-      "artist_name",
-      "tags",
-      "track_date_created",
-      "track_date_recorded",
-      "track_duration",
-      "track_genres",
-      "track_language_code",
-      "track_listens",
-      "track_number",
-      "track_title",
-      data.track_id,
-      data.album_id,
-      data.album_title,
-      data.artist_id,
-      data.artist_name,
-      data.tags,
-      data.track_date_created,
-      data.track_date_recorded,
-      hmsToSecondsOnly(data.track_duration),
-      data.track_genres,
-      data.track_language_code,
-      data.track_listens,
-      data.track_number,
-      data.track_title,
+      "TeamAbbreviation",
+      "team_abbrev",
+      "team_name",
+      data.team_abbrev,
+      data.team_name,
+    ]);
+  } else if (table == "DefensiveFootballPlayer") {
+    insertQuery =
+      "INSERT INTO ?? (??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
+    query = mysql.format(insertQuery, [
+      "DefensiveFootballPlayer",
+      "pf_name",
+      "pl_name",
+      "team_name",
+      "def_int",
+      "def_td",
+      "def_tackles",
+      "def_sacks",
+      data.pf_name,
+      data.pl_name,
+      data.team_name,
+      data.def_int,
+      data.def_td,
+      data.def_tackles,
+      data.def_sacks,
+    ]);
+  } else if (table == "OffensiveFootballPlayer") {
+    insertQuery =
+      "INSERT INTO ?? (??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    query = mysql.format(insertQuery, [
+      "OffensiveFootballPlayer",
+      "pf_name",
+      "pl_name",
+      "team_name",
+      "pass_att",
+      "pass_comp",
+      "comp_pct",
+      "pass_yds",
+      "pass_ypg",
+      "pass_td",
+      "pass_int",
+      "rush_att",
+      "rush_yds",
+      "rush_avg",
+      "rush_ypg",
+      "rush_td",
+      "rec",
+      "rec_yds",
+      "rec_avg",
+      "rec_ypg",
+      "rec_td",
+      "tar",
+      "yac",
+      data.pf_name,
+      data.pl_name,
+      data.team_name,
+      data.pass_att,
+      data.pass_comp,
+      data.comp_pct,
+      data.pass_yds,
+      data.pass_ypg,
+      data.pass_td,
+      data.pass_int,
+      data.rush_att,
+      data.rush_yds,
+      data.rush_avg,
+      data.rush_ypg,
+      data.rush_td,
+      data.rec,
+      data.rec_yds,
+      data.rec_avg,
+      data.rec_ypg,
+      data.rec_td,
+      data.tar,
+      data.yac,
+    ]);
+  } else if (table == "Kicker") {
+    insertQuery =
+      "INSERT INTO ?? (??,??,??,??,??,??,??) VALUES (?,?,?,?,?,?,?)";
+    query = mysql.format(insertQuery, [
+      "Kicker",
+      "pf_name",
+      "pl_name",
+      "team_name",
+      "xp_made",
+      "xp_att",
+      "fg_made",
+      "fg_att",
+      data.pf_name,
+      data.pl_name,
+      data.team_name,
+      data.xp_made,
+      data.xp_att,
+      data.fg_made,
+      data.fg_att,
     ]);
   } else {
     //do nothing
