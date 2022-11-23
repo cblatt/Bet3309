@@ -4,4 +4,4 @@ uf_Name,varchar(50),NO,,NULL,
 ul_Name,varchar(50),NO,,NULL,
 email,varchar(100),NO,,NULL,
 password,varchar(50),NO,,NULL,
-
+user_favourites,varchar(50),NO,0,NULL,,
