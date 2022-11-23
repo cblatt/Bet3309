@@ -27,6 +27,7 @@ CREATE TABLE Team (
 	rush_yards_against INT,
 	pass_yards_against INT,
 	total_yards_against INT,
+	user_favourites INT DEFAULT VALUE 0;
     FOREIGN KEY(div_name) REFERENCES Division(div_name)
 );
 
