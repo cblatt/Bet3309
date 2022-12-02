@@ -26,7 +26,7 @@ CREATE TABLE `User` (
   `username` varchar(100) NOT NULL,
   `uf_Name` varchar(50) NOT NULL,
   `ul_Name` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) UNIQUE NOT NULL,
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
