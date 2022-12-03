@@ -104,4 +104,4 @@ dist
 .tern-port
 
 #config files
-SRC/config
+SRC/config/**
