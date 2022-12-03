@@ -19,10 +19,6 @@ app.get("/message", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.get("/message", (req, res) => {
-  res.json({ message: "Hello from server!" });
-});
-
 app.get("/login/:email", (req, res) => {
   let email = req.params.email;
   //let password = req.body.password;
