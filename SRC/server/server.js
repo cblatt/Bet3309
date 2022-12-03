@@ -35,7 +35,7 @@ app.get("/message", (req, res) => {
 
 app.get("/upcoming/:week", (req, res) => {
   let week = req.params.week;
-  let query = `SELECT game_day, game_time, away_team, home_team FROM Game WHERE game_id LIKE '%2022_${week}%'`;
+  let query = `SELECT game_id, game_day, game_time, away_team, home_team FROM Game WHERE game_id LIKE '%2022_${week}%'`;
   connection.query(query, (err, data) => {
     if (err) {
       res.status(400).send(err);
@@ -44,7 +44,7 @@ app.get("/upcoming/:week", (req, res) => {
   });
 });
 
-app.get("/roster/:t_name",(req,res)=>{
+app.get("/roster/:t_name", (req, res) => {
   let t_name = req.params.t_name;
 
   let query = `SELECT pf_name, pl_name FROM (
@@ -54,15 +54,15 @@ app.get("/roster/:t_name",(req,res)=>{
     (SELECT team_name, pf_name, pl_name 
       FROM DefensiveFootballPlayer AS defPlayer)
         UNION
-        (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= ${t_name}`
-    connection.query(query, (err, data) => {
-        if (err) {
-          console.error(err);
-        }
-        console.log(data);
-        res.send(data);
-        });
-})
+        (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= "${t_name}"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
 
 app.listen(8000, () => {
   console.log(`Server is running on port 8000.`);
