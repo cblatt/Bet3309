@@ -731,7 +731,7 @@ export default function PlayerSearch() {
             </center>
             
         </div>
-      
+     
     </div>
   );
 }
