@@ -19,16 +19,27 @@ app.get("/message", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
-app.get("/login/:email", (req, res) => {
-  let email = req.params.email;
-  //let password = req.body.password;
-  let password = "password";
-  let query = `SELECT * FROM User WHERE email = "${email}" AND password="${password}"`;
+// app.get("/login/:email", (req, res) => {
+//   let email = req.params.email;
+//   //let password = req.body.password;
+//   let password = "password";
+//   let query = `SELECT * FROM User WHERE email = "${email}" AND password="${password}"`;
+//   connection.query(query, (err, data) => {
+//     if (err) {
+//       console.error(err);
+//     }
+//     console.log(data);
+//     res.send(data);
+//   });
+// });
+
+app.get("/upcoming/:week", (req, res) => {
+  let week = req.params.week;
+  let query = `SELECT game_day, game_time, away_team, home_team FROM Game WHERE game_id LIKE '%2022_${week}%'`;
   connection.query(query, (err, data) => {
     if (err) {
-      console.error(err);
+      res.status(400).send(err);
     }
-    console.log(data);
     res.send(data);
   });
 });
