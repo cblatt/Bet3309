@@ -54,7 +54,7 @@ app.get("/roster/:t_name",(req,res)=>{
     (SELECT team_name, pf_name, pl_name 
       FROM DefensiveFootballPlayer AS defPlayer)
         UNION
-        (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= ${t_name}`
+        (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= "${t_name}"`
     connection.query(query, (err, data) => {
         if (err) {
           console.error(err);
@@ -62,6 +62,54 @@ app.get("/roster/:t_name",(req,res)=>{
         console.log(data);
         res.send(data);
         });
+})
+
+app.get('/off/stats/:player', (req, res) => {
+  let player = req.params.player;
+  let query = `SELECT * FROM OffensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
+  connection.query(query, (err, data) => {
+    if(err){
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  }) 
+});
+
+app.get('/def/stats/:player', (req, res) => {
+  let player = req.params.player;
+  let query = `SELECT * FROM DefensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
+  connection.query(query, (err, data) => {
+    if(err){
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  })
+});
+
+app.get('/kick/stats/:player', (req, res) => {
+  let player = req.params.player;
+  let query = `SELECT * FROM Kicker WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
+  connection.query(query, (err, data) => {
+    if(err){
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  })
+});
+
+app.get('/team/stats/:tName', (req, res) => {
+  let tName = req.params.tName;
+  let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev =  TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
+  connection.query(query, (err, data) => {
+    if(err){
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  })
 })
 
 app.listen(8000, () => {
