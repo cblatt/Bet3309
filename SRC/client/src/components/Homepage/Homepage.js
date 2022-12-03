@@ -2,11 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "./Homepage.css";
 import Navigation from "../Navigation/Navigation";
+import { Button } from "react-bootstrap";
 
 export default function Homepage() {
   // Holds upcoming game info
   const [games, setgames] = useState([]);
-
   useEffect(() => {
     getGames();
   }, []);
@@ -19,16 +19,16 @@ export default function Homepage() {
     console.log(id);
   };
 
+  //Check selection of the week and then call get games to display
   function showGames() {
     const week = document.getElementById("list-games").value;
     if ("Week #" != week) {
       getGames(week);
-
     }
   }
 
   return (
-    <body>
+    <div>
       <Navigation />
       <div>
         <center>
@@ -50,7 +50,12 @@ export default function Homepage() {
           }}
         >
           Upcoming Games:
-          <select id="list-games" onClick={() => {showGames()}}>
+          <select
+            id="list-games"
+            onClick={() => {
+              showGames();
+            }}
+          >
             <option value="Week#">Week #</option>
             <option value="01">Week 1</option>
             <option value="02">Week 2</option>
@@ -82,23 +87,32 @@ export default function Homepage() {
             <th>Record</th>
             <th>Game Day</th>
             <th>Game Time</th>
-            <th>Info</th>
+            <th>Prediction</th>
           </tr>
 
           {games.map((item) => (
-              <tr>
-                <td>{item.home_team}</td>
-                <td>{item.home_wins}-{item.home_losses}-{item.home_ties}</td>
-                <td>{item.away_team}</td>
-                <td>{item.away_wins}-{item.home_losses}-{item.home_ties}</td>
-                <td>{item.game_day.slice(0,10)}</td>
-                <td>{item.game_time}</td>
-                <td>info</td>
-              </tr>
-            ))}
+            <tr>
+              <td>{item.home_team}</td>
+              <td>
+                {item.home_wins}-{item.home_losses}-{item.home_ties}
+              </td>
+              <td>{item.away_team}</td>
+              <td>
+                {item.away_wins}-{item.home_losses}-{item.home_ties}
+              </td>
+              <td>{item.game_day.slice(0, 10)}</td>
+              <td>{item.game_time}</td>
+
+              <td>
+                <Button className="btn btn-dark">Predict</Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <br/><br/><br/>
-    </body>
+      <br />
+      <br />
+      <br />
+    </div>
   );
 }

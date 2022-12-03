@@ -1,25 +1,25 @@
 /* Games table css */
-#t1 {
+#t2 {
     font-weight: bold;
   }
-  #t1 {
+  #t2 {
     border-collapse: collapse;
-    width: 90%;
+    width: 50%;
     border: none;
     margin-left: auto;
     margin-right: auto;
   }
-  #t1 td,
-  #t1 th {
+  #t2 td,
+  #t2 th {
     padding: 8px;
   }
-  #t1 tr:nth-child(odd) {
+  #t2 tr:nth-child(odd) {
     background-color: #f2f2f2;
   }
-  #t1 tr:hover {
+  #t2 tr:hover {
     background-color: #ddd;
   }
-  #t1 th {
+  #t2 th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -35,5 +35,4 @@
     border-radius: 0 10px 10px 0;
   }
   /* Predict button css */
-
 
