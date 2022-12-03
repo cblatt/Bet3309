@@ -12,8 +12,8 @@ export default function Navigation() {
       />
       <Navbar.Collapse>
         <Nav>
-          <NavLink eventKey="1" as={Link} to="/">
-            TEST
+          <NavLink eventKey="1" as={Link} to="/homepage">
+            Homepage
           </NavLink>
         </Nav>
       </Navbar.Collapse>
