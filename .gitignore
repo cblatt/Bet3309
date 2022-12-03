@@ -105,3 +105,4 @@ dist
 
 #config files
 SRC/config/**
+SRC/config/db.config.js

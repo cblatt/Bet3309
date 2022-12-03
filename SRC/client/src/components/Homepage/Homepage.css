@@ -34,7 +34,3 @@
   th:last-child {
     border-radius: 0 10px 10px 0;
   }
-  /* Playlist table info */
-  .playlist-info {
-    padding-left: 75px;
-  }
