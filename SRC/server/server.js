@@ -33,9 +33,13 @@ app.get("/message", (req, res) => {
 //   });
 // });
 
-app.get("/upcoming/:week", (req, res) => {
+app.get("/current/:week", (req, res) => {
   let week = req.params.week;
-  let query = `SELECT game_id, game_day, game_time, away_team, home_team FROM Game WHERE game_id LIKE '%2022_${week}%'`;
+  let query = `SELECT g.game_id, g.game_day, g.away_team, g.home_team, g.away_score, g.home_score, t.games_won AS home_wins, t.games_lost AS home_losses, t.games_tied AS home_ties,
+  tt.games_won AS away_wins, tt.games_lost AS away_losses, tt.games_tied AS away_ties
+  FROM (Game g JOIN Team t ON g.home_team = t.team_abbrev JOIN Team tt ON g.away_team = tt.team_abbrev) 
+  WHERE g.game_id LIKE '%2022_${week}%'`;
+
   connection.query(query, (err, data) => {
     if (err) {
       res.status(400).send(err);
