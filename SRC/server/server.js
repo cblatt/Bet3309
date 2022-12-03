@@ -44,6 +44,26 @@ app.get("/upcoming/:week", (req, res) => {
   });
 });
 
+app.get("/roster/:t_name",(req,res)=>{
+  let t_name = req.params.t_name;
+
+  let query = `SELECT pf_name, pl_name FROM (
+    (SELECT team_name, pf_name, pl_name
+      FROM OffensiveFootballPlayer AS offPlayer) 
+        UNION
+    (SELECT team_name, pf_name, pl_name 
+      FROM DefensiveFootballPlayer AS defPlayer)
+        UNION
+        (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= ${t_name}`
+    connection.query(query, (err, data) => {
+        if (err) {
+          console.error(err);
+        }
+        console.log(data);
+        res.send(data);
+        });
+})
+
 app.listen(8000, () => {
   console.log(`Server is running on port 8000.`);
 });
