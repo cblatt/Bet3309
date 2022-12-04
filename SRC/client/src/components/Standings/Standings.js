@@ -15,17 +15,17 @@ export default function Standings() {
 
   //Gets all games for selected week
   const getLeauge = async (id) => {
-    let result = await fetch(`http://localhost:8000/standings/leauge`);
+    let result = await fetch(`/standings/leauge`);
     result = await result.json();
     setstand(result);
   };
   const getConfrence = async (id) => {
-    let result = await fetch(`http://localhost:8000/standings/confrence/${id}`);
+    let result = await fetch(`/standings/confrence/${id}`);
     result = await result.json();
     setstand(result);
   };
   const getDivison = async (id) => {
-    let result = await fetch(`http://localhost:8000/standings/division/${id}`);
+    let result = await fetch(`/standings/division/${id}`);
     result = await result.json();
     setstand(result);
   };
@@ -33,7 +33,9 @@ export default function Standings() {
   //Check selection of the drop down to organize
   function showList() {
     const choice = document.getElementById("list-games").value;
-    if (choice == "Leauge") {
+    if (choice == "Select") {
+        //Do nothing
+    } else if (choice == "Leauge") {
       getLeauge();
     } else if (choice == "AFC" || choice == "NFC") {
       getConfrence(choice);
@@ -44,65 +46,66 @@ export default function Standings() {
 
   return (
     <body>
-    <div>
-      <Navigation />
+      <div>
+        <Navigation />
 
-      <center>
-        <br />
-        <span style={{ fontSize: "35px", fontFamily: "Copperplate" }} >
-          Standings
-        </span>
-        <br />
-        <br />
-      
-      <span
-        style={{
-          fontSize: "18px",
-          fontFamily: "Copperplate",
-          marginLeft: "80px",
-        }}
-      >
-        Organize by:
-        <select
-          id="list-games"
-          onClick={() => {
-            showList();
-          }}
-        >
-            <option value="Select">Select</option>
-          <option value="Leauge">Leauge</option>
-          <option value="AFC">AFC</option>
-          <option value="NFC">NFC</option>
-          <option value="NFC North">NFC North</option>
-          <option value="NFC East">NFC East</option>
-          <option value="NFC South">NFC South</option>
-          <option value="NFC West">NFC West</option>
-          <option value="AFC North">AFC North</option>
-          <option value="AFC East">AFC East</option>
-          <option value="AFC South">AFC South</option>
-          <option value="AFC West">AFC West</option>
-        </select>
-      </span>
-      </center>
-      <br />
-      <table id="t2" >
-        <tbody>
-          <tr>
-            <th>Team</th>
-            <th>Record</th>
-          </tr>
+        <center>
+          <br />
+          <span style={{ fontSize: "35px", fontFamily: "Copperplate" }}>
+            Standings
+          </span>
+          <br />
+          <br />
 
-          {stand.map((item) => (
+          <span
+            style={{
+              fontSize: "18px",
+              fontFamily: "Copperplate",
+              marginLeft: "80px",
+            }}
+          >
+            Organize by:
+            <select
+              id="list-games"
+              onClick={() => {
+                showList();
+              }}
+            >
+              <option value="Select">Select</option>
+              <option value="Leauge">Leauge</option>
+              <option value="AFC">AFC</option>
+              <option value="NFC">NFC</option>
+              <option value="NFC North">NFC North</option>
+              <option value="NFC East">NFC East</option>
+              <option value="NFC South">NFC South</option>
+              <option value="NFC West">NFC West</option>
+              <option value="AFC North">AFC North</option>
+              <option value="AFC East">AFC East</option>
+              <option value="AFC South">AFC South</option>
+              <option value="AFC West">AFC West</option>
+            </select>
+          </span>
+        </center>
+        <br />
+        <table id="t2">
+          <tbody>
             <tr>
-              <td>{item.team_abbrev}</td>
-              <td>
-                {item.games_won}-{item.games_lost}-{item.games_tied}
-              </td>
+              <th>Team</th>
+              <th>Record</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+
+            {stand.map((item) => (
+              <tr>
+                <td>{item.team_abbrev}</td>
+                <td>
+                  {item.games_won}-{item.games_lost}-{item.games_tied}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <br></br>
     </body>
   );
 }

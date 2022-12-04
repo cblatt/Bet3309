@@ -54,25 +54,22 @@ function TeamRosters() {
           for(b in teams){
             dynamicTeam(teams[b])
           }
+        })
+        
         }
-          
-        )
-      }
-      catch{
       
-      }
-    }
-    const dynamicTeam = (team)=>{
-      console.log("HI")
-      const l = document.getElementById("teams")
-      let node = document.createElement("option")
-      node.appendChild(document.createTextNode(team))
-      l.appendChild(node)
+     catch {}
+  };
 
-    }
-    
+  
+  const dynamicTeam = (team) => {
+    console.log("HI");
+    const l = document.getElementById("teams");
+    let node = document.createElement("option");
+    node.appendChild(document.createTextNode(team));
+    l.appendChild(node);
+  };
 
-    
   return (
     <>
     <Navigation/>
@@ -102,8 +99,8 @@ function TeamRosters() {
    
      <ul id="names" ></ul>
     </div>
+
     </>
   );
-  
 }
 export default TeamRosters;
