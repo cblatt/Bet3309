@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
 const dbConfig = require("../config/db.config");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const app = express();
 
@@ -12,8 +15,29 @@ const connection = mysql.createConnection({
   database: dbConfig.DB,
 });
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:8000"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(
+  session({
+    key: "userId",
+    secret: "3316aztdcb",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      //means that the cookie expires after 24 hours, so sessions can be maintained for that long
+      expires: 60 * 60 * 24,
+    },
+  })
+);
 
 app.get("/message", (req, res) => {
   res.json({ message: "Hello from server!" });
@@ -39,6 +63,47 @@ app.get("/current/:week", (req, res) => {
   tt.games_won AS away_wins, tt.games_lost AS away_losses, tt.games_tied AS away_ties
   FROM (Game g JOIN Team t ON g.home_team = t.team_abbrev JOIN Team tt ON g.away_team = tt.team_abbrev) 
   WHERE g.game_id LIKE '%2022_${week}%'`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send(data);
+  });
+});
+
+app.get("/predict/:week/:home_team", (req, res) => {
+  let week = req.params.week;
+  let home_team = req.params.home_team;
+  let query = `SELECT g.game_id, g.game_day, g.game_time, 
+  g.home_team, 
+  h.points_for / (h.games_won + h.games_lost + h.games_tied) AS home_pf, 
+  h.points_against / (h.games_won + h.games_lost + h.games_tied)AS home_pa,
+  h.pass_yards / (h.games_won + h.games_lost + h.games_tied)AS home_passf,
+  h.pass_yards_against / (h.games_won + h.games_lost + h.games_tied) AS home_passa,
+  h.rush_yards / (h.games_won + h.games_lost + h.games_tied) AS home_rushf,
+  h.rush_yards_against / (h.games_won + h.games_lost + h.games_tied) AS home_rusha,
+  g.away_team, 
+  a.points_for / (a.games_won + a.games_lost + a.games_tied) AS away_pf, 
+  a.points_against / (a.games_won + a.games_lost + a.games_tied) AS away_pa,
+  a.pass_yards / (a.games_won + a.games_lost + a.games_tied) AS away_passf,
+  a.pass_yards_against  / (a.games_won + a.games_lost + a.games_tied)AS away_passa,
+  a.rush_yards  / (a.games_won + a.games_lost + a.games_tied)AS away_rushf,
+  a.rush_yards_against  / (a.games_won + a.games_lost + a.games_tied)AS away_rusha
+  FROM (Game g JOIN Team h ON g.home_team = h.team_abbrev JOIN Team a ON g.away_team = a.team_abbrev) 
+  WHERE g.game_id LIKE '%2022_${week}%' AND home_team LIKE '${home_team}';`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send(data);
+  });
+});
+
+app.get("/predict/avg", (req, res) => {
+  //for this to work you must have LeaugeAverages view
+  let query = `SELECT * FROM LeaugeAverages`;
 
   connection.query(query, (err, data) => {
     if (err) {
@@ -82,10 +147,10 @@ app.get("/roster/:t_name", (req, res) => {
     res.send(data);
   });
 });
-app.get("/divs/:d_name",(req,res)=>{
-  let d_name = req.params.d_name
+app.get("/divs/:d_name", (req, res) => {
+  let d_name = req.params.d_name;
 
-  let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`
+  let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`;
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
@@ -93,7 +158,7 @@ app.get("/divs/:d_name",(req,res)=>{
     console.log(data);
     res.send(data);
   });
-})
+});
 
 //Geting standings for whole leauge
 app.get("/standings/leauge", (req, res) => {
@@ -136,7 +201,6 @@ app.get("/off/stats/:player", (req, res) => {
     if (err) {
       console.log(err);
     }
-    console.log(data);
     res.send(data);
   });
 });
@@ -171,6 +235,55 @@ app.get("/team/stats/:tName", (req, res) => {
   connection.query(query, (err, data) => {
     if (err) {
       console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+app.post("/login", (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
+  console.log(username);
+  console.log(password);
+
+  let query = `SELECT * FROM User WHERE username = "${username}" AND password = "${password}"`;
+
+  connection.query(query, (err, result) => {
+    if (err) {
+      res.send({ err: err });
+    }
+    //there is someone in the db with that username/password combination
+    if (result.length > 0) {
+      req.session.user = result;
+      console.log(req.session.user);
+      res.json({ auth: true, result: result });
+    } else {
+      //happens if no user exists
+      res.json({ auth: false, message: "No user exists" });
+    }
+  });
+});
+
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false });
+  }
+});
+
+app.post("/register", (req, res) => {
+  const username = req.body.username;
+  const uf_Name = req.body.uf_Name;
+  const ul_Name = req.body.ul_Name;
+  const email = req.body.email;
+  const password = req.body.password;
+
+  let query = `INSERT INTO User VALUES ("${username}", "${uf_Name}", "${ul_Name}", "${email}", "${password}")`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
     }
     console.log(data);
     res.send(data);
