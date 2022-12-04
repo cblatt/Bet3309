@@ -48,6 +48,47 @@ app.get("/current/:week", (req, res) => {
   });
 });
 
+app.get("/predict/:week/:home_team", (req, res) => {
+  let week = req.params.week;
+  let home_team = req.params.home_team;
+  let query = `SELECT g.game_id, g.game_day, g.game_time, 
+  g.home_team, 
+  h.points_for / (h.games_won + h.games_lost + h.games_tied) AS home_pf, 
+  h.points_against / (h.games_won + h.games_lost + h.games_tied)AS home_pa,
+  h.pass_yards / (h.games_won + h.games_lost + h.games_tied)AS home_passf,
+  h.pass_yards_against / (h.games_won + h.games_lost + h.games_tied) AS home_passa,
+  h.rush_yards / (h.games_won + h.games_lost + h.games_tied) AS home_rushf,
+  h.rush_yards_against / (h.games_won + h.games_lost + h.games_tied) AS home_rusha,
+  g.away_team, 
+  a.points_for / (a.games_won + a.games_lost + a.games_tied) AS away_pf, 
+  a.points_against / (a.games_won + a.games_lost + a.games_tied) AS away_pa,
+  a.pass_yards / (a.games_won + a.games_lost + a.games_tied) AS away_passf,
+  a.pass_yards_against  / (a.games_won + a.games_lost + a.games_tied)AS away_passa,
+  a.rush_yards  / (a.games_won + a.games_lost + a.games_tied)AS away_rushf,
+  a.rush_yards_against  / (a.games_won + a.games_lost + a.games_tied)AS away_rusha
+  FROM (Game g JOIN Team h ON g.home_team = h.team_abbrev JOIN Team a ON g.away_team = a.team_abbrev) 
+  WHERE g.game_id LIKE '%2022_${week}%' AND home_team LIKE '${home_team}';`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send(data);
+  });
+});
+
+app.get("/predict/avg", (req, res) => {
+  //for this to work you must have LeaugeAverages view
+  let query = `SELECT * FROM LeaugeAverages`;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send(data);
+  });
+});
+
 app.get("/past/:year/:team", (req, res) => {
   let year = req.params.year;
   let team = req.params.team;
@@ -82,10 +123,10 @@ app.get("/roster/:t_name", (req, res) => {
     res.send(data);
   });
 });
-app.get("/divs/:d_name",(req,res)=>{
-  let d_name = req.params.d_name
+app.get("/divs/:d_name", (req, res) => {
+  let d_name = req.params.d_name;
 
-  let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`
+  let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`;
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
@@ -93,7 +134,7 @@ app.get("/divs/:d_name",(req,res)=>{
     console.log(data);
     res.send(data);
   });
-})
+});
 
 //Geting standings for whole leauge
 app.get("/standings/leauge", (req, res) => {
