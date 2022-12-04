@@ -18,9 +18,16 @@ export default function Navigation() {
           <NavLink eventKey="2" as={Link} to="/player-search">
             Player Search
           </NavLink>
-          <NavLink eventKey="2" as={Link} to="/teamRosters">
+          <NavLink eventKey="3" as={Link} to="/teamRosters">
             Rosters
           </NavLink>
+          <NavLink eventKey="4" as={Link} to="/standings">
+            Standings
+          </NavLink>
+          <NavLink eventKey="5" as={Link} to="/history">
+            History
+          </NavLink>
+
         </Nav>
       </Navbar.Collapse>
     </Navbar>
