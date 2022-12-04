@@ -1,3 +1,8 @@
+
+import Navigation from "../Navigation/Navigation";
+
+import axios from 'axios';
+
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
@@ -53,27 +58,27 @@ function TeamRosters() {
 
   return (
     <>
-      <div className="App">
-        <select id="divisions">
-          <option value="">--Select A Division--</option>
-          <option value="AFC East">AFC East</option>
-          <option value="AFC North">AFC North</option>
-          <option value="AFC South">AFC South</option>
-          <option value="AFC West">AFC West</option>
-          <option value="NFC South">NFC South</option>
-          <option value="NFC East">NFC East</option>
-          <option value="NFC North">NFC North</option>
-          <option value="NFC West">NFC West</option>
-        </select>
-        <button id="btn" onClick={searchDivision}>
-          Search Division
-        </button>
-        <select id="teams"></select>
-        <button id="btn1" onClick={getNames}>
-          Search Roster
-        </button>
-        <ul id="names"></ul>
-      </div>
+
+          <Navigation />
+    <div className="App">
+    <select id="divisions">
+              <option value="">--Select A Division--</option>
+                <option value="AFC East">AFC East</option>
+                <option value="AFC North">AFC North</option>
+                <option value="AFC South">AFC South</option>
+                <option value="AFC West">AFC West</option>
+                <option value="NFC South">NFC South</option>
+                <option value="NFC East">NFC East</option>
+                <option value="NFC North">NFC North</option>
+                <option value="NFC West">NFC West</option>
+                
+            </select>
+            <button id="btn" onClick = {searchDivision}>Search Division</button>
+    <select id="teams"></select>
+     <button id="btn1" onClick ={getNames}>Search Roster</button>
+     <ul id="names" ></ul>
+    </div>
+
     </>
   );
 }

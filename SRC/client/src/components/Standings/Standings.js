@@ -105,6 +105,7 @@ export default function Standings() {
           </tbody>
         </table>
       </div>
+      <br></br>
     </body>
   );
 }
