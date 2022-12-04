@@ -48,6 +48,20 @@ app.get("/current/:week", (req, res) => {
   });
 });
 
+app.get("/past/:year/:team", (req, res) => {
+  let year = req.params.year;
+  let team = req.params.team;
+  let query = `SELECT g.game_id, g.game_day, g.game_time, g.away_team, g.home_team, g.away_score, g.home_score
+  FROM Game g WHERE g.game_id LIKE '%${team}%' AND g.game_id LIKE '%${year}%' `;
+
+  connection.query(query, (err, data) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send(data);
+  });
+});
+
 app.get("/roster/:t_name", (req, res) => {
   let t_name = req.params.t_name;
 
@@ -71,7 +85,6 @@ app.get("/roster/:t_name", (req, res) => {
 
 //Geting standings for whole leauge
 app.get("/standings/leauge", (req, res) => {
-
   let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name) ORDER BY t.games_won DESC`;
   connection.query(query, (err, data) => {
@@ -83,7 +96,6 @@ app.get("/standings/leauge", (req, res) => {
 });
 //Getting standing for confrence
 app.get("/standings/confrence/:cnf", (req, res) => {
-
   let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name) WHERE d.conf_name = "${req.params.cnf}" ORDER BY t.games_won DESC`;
   connection.query(query, (err, data) => {
@@ -95,7 +107,6 @@ app.get("/standings/confrence/:cnf", (req, res) => {
 });
 //Getting standing for division
 app.get("/standings/division/:div", (req, res) => {
-
   let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name) WHERE d.div_name = "${req.params.div}" ORDER BY t.games_won DESC`;
   connection.query(query, (err, data) => {
@@ -106,59 +117,54 @@ app.get("/standings/division/:div", (req, res) => {
   });
 });
 
-
-
-
-app.get('/off/stats/:player', (req, res) => {
+app.get("/off/stats/:player", (req, res) => {
   let player = req.params.player;
   let query = `SELECT * FROM OffensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
   connection.query(query, (err, data) => {
-    if(err){
+    if (err) {
       console.log(err);
     }
     console.log(data);
     res.send(data);
-  }) 
+  });
 });
 
-app.get('/def/stats/:player', (req, res) => {
+app.get("/def/stats/:player", (req, res) => {
   let player = req.params.player;
   let query = `SELECT * FROM DefensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
   connection.query(query, (err, data) => {
-    if(err){
+    if (err) {
       console.log(err);
     }
     console.log(data);
     res.send(data);
-  })
+  });
 });
 
-app.get('/kick/stats/:player', (req, res) => {
+app.get("/kick/stats/:player", (req, res) => {
   let player = req.params.player;
   let query = `SELECT * FROM Kicker WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
   connection.query(query, (err, data) => {
-    if(err){
+    if (err) {
       console.log(err);
     }
     console.log(data);
     res.send(data);
-  })
+  });
 });
 
-app.get('/team/stats/:tName', (req, res) => {
+app.get("/team/stats/:tName", (req, res) => {
   let tName = req.params.tName;
   let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev =  TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
   connection.query(query, (err, data) => {
-    if(err){
+    if (err) {
       console.log(err);
     }
     console.log(data);
     res.send(data);
-  })
-})
+  });
+});
 
 app.listen(8000, () => {
   console.log(`Server is running on port 8000.`);
 });
-
-
