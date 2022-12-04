@@ -1,7 +1,8 @@
 import React,{useState, useEffect} from "react";
-
+import  Navigation  from "../Navigation/Navigation";
 import axios from 'axios';
-import { kMaxLength } from "buffer";
+
+import "./teamRosters.css"
 
 function TeamRosters() {
   
@@ -33,6 +34,7 @@ function TeamRosters() {
     }
 
     const searchDivision = ()=>{
+      
       const div = document.getElementById("divisions").value
       try{
         axios.get("http://localhost:8000/divs/"+div).then(res=>{
@@ -40,13 +42,18 @@ function TeamRosters() {
           let i =0
           for(i in teams){
             teams[i] = res.data[i].team_abbrev
+            
           }
+          
           const l = document.getElementById("teams")
           let a =0
           for(a in l.options){
             l.remove(0)
           }
-          teams.forEach(dynamicTeam)
+          let b =0
+          for(b in teams){
+            dynamicTeam(teams[b])
+          }
         }
           
         )
@@ -68,9 +75,12 @@ function TeamRosters() {
     
   return (
     <>
+    <Navigation/>
     
-    <div className="App">
-    <select id="divisions">
+    <div id="App">
+    <label id="label">Team Rosters</label>
+    <div id="one">
+    <select id="divisions" onChange = {searchDivision}>
               <option value="">--Select A Division--</option>
                 <option value="AFC East">AFC East</option>
                 <option value="AFC North">AFC North</option>
@@ -82,9 +92,14 @@ function TeamRosters() {
                 <option value="NFC West">NFC West</option>
                 
             </select>
-            <button id="btn" onClick = {searchDivision}>Search Division</button>
-    <select id="teams"></select>
+            </div>  
+            <div id="two">
+    <select id="teams">
+    <option value="">--Select A Team--</option>
+    </select>
+    </div>
      <button id="btn1" onClick ={getNames}>Search Roster</button>
+   
      <ul id="names" ></ul>
     </div>
     </>

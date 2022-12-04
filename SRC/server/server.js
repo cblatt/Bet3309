@@ -168,6 +168,7 @@ app.get('/team/stats/:tName', (req, res) => {
     res.send(data);
   })
 })
+app.get('/leaders/:')
 
 app.listen(8000, () => {
   console.log(`Server is running on port 8000.`);
