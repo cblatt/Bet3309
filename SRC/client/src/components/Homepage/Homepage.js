@@ -13,7 +13,7 @@ export default function Homepage() {
 
   //Gets all games for selected week
   const getGames = async (id) => {
-    let result = await fetch(`http://localhost:8000/current/${id}`);
+    let result = await fetch(`/current/${id}`);
     result = await result.json();
     setgames(result);
     console.log(id);
@@ -49,7 +49,7 @@ export default function Homepage() {
             marginLeft: "80px",
           }}
         >
-          Upcoming Games:
+          Games:
           <select
             id="list-games"
             onClick={() => {
@@ -83,8 +83,10 @@ export default function Homepage() {
           <tr>
             <th>Home Team</th>
             <th>Record</th>
+            <th>Home score</th>
             <th>Away Team</th>
             <th>Record</th>
+            <th>Away score</th>
             <th>Game Day</th>
             <th>Game Time</th>
             <th>Prediction</th>
@@ -96,10 +98,12 @@ export default function Homepage() {
               <td>
                 {item.home_wins}-{item.home_losses}-{item.home_ties}
               </td>
+              <td>{item.home_score}</td>
               <td>{item.away_team}</td>
               <td>
                 {item.away_wins}-{item.home_losses}-{item.home_ties}
               </td>
+              <td>{item.away_score}</td>
               <td>{item.game_day.slice(0, 10)}</td>
               <td>{item.game_time}</td>
 

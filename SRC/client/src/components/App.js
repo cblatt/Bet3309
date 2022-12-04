@@ -6,6 +6,7 @@ import Signup from "./Signup/Signup";
 import PlayerSearch from "./Player Search/PlayerSearch";
 import TeamRosters from "./Team Rosters/teamRosters";
 import Standings from "./Standings/Standings";
+import History from "./History/History";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/signup" element={<Signup></Signup>} />
             <Route exact path="/homepage" element={<Homepage></Homepage>} />
             <Route exact path="/standings" element={<Standings></Standings>} />
+            <Route exact path="/history" element={<History></History>} />
             <Route
               exact
               path="/player-search"
