@@ -16,6 +16,7 @@ export default function Homepage() {
     let result = await fetch(`/current/${id}`);
     result = await result.json();
     setgames(result);
+    console.log(id);
   };
 
   //Check selection of the week and then call get games to display
@@ -27,9 +28,9 @@ export default function Homepage() {
   }
 
   //needs to be called with week and home_team taken from the row of the button clicked (will probably need game_id in that table to do this)
-  async function predictGame(id) {
-    let week = document.getElementById("list-games").value;
-    let home_team = id;
+  async function predictGame() {
+    let week = "13";
+    let home_team = "TB";
     let home_spread = 2.5;
     let away_spread = 0;
     let game_stats = await fetch(`/predict/${week}/${home_team}`);
@@ -359,12 +360,7 @@ export default function Homepage() {
               <td>{item.game_time}</td>
 
               <td>
-                <Button
-                  className="btn btn-dark"
-                  onClick={() => {
-                    predictGame(item.home_team);
-                  }}
-                >
+                <Button className="btn btn-dark" onClick={predictGame}>
                   Predict
                 </Button>
               </td>
