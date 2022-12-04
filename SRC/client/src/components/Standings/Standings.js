@@ -43,13 +43,13 @@ export default function Standings() {
   }
 
   return (
-    <body onLoad={showList()}>
+    <body>
     <div>
       <Navigation />
 
       <center>
         <br />
-        <span style={{ fontSize: "35px", fontFamily: "Copperplate" }}>
+        <span style={{ fontSize: "35px", fontFamily: "Copperplate" }} >
           Standings
         </span>
         <br />
@@ -69,6 +69,7 @@ export default function Standings() {
             showList();
           }}
         >
+            <option value="Select">Select</option>
           <option value="Leauge">Leauge</option>
           <option value="AFC">AFC</option>
           <option value="NFC">NFC</option>
@@ -84,7 +85,7 @@ export default function Standings() {
       </span>
       </center>
       <br />
-      <table id="t2">
+      <table id="t2" >
         <tbody>
           <tr>
             <th>Team</th>
