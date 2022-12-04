@@ -68,6 +68,18 @@ app.get("/roster/:t_name", (req, res) => {
     res.send(data);
   });
 });
+app.get("/divs/:d_name",(req,res)=>{
+  let d_name = req.params.d_name
+
+  let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+})
 
 //Geting standings for whole leauge
 app.get("/standings/leauge", (req, res) => {
