@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from "react";
+import Navigation from "../Navigation/Navigation";
 
 import axios from 'axios';
 
@@ -68,7 +69,7 @@ function TeamRosters() {
     
   return (
     <>
-    
+          <Navigation />
     <div className="App">
     <select id="divisions">
               <option value="">--Select A Division--</option>
