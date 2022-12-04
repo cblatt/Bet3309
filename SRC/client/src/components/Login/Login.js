@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "/node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./Login.css";
 import axios from "axios";
@@ -17,6 +17,9 @@ export default function Login() {
   // const [confirmPassword, setConfirmPassword] = useState(null);
 
   const [loginStatus, setLoginStatus] = useState(false);
+
+  //needed to connect FE to BE with sessions (doesn't work without this)
+  axios.defaults.withCredentials = true;
 
   const handleInputChange = (e) => {
     //you get the id and value entered in the input box
@@ -44,6 +47,17 @@ export default function Login() {
     //   setConfirmPassword(value);
     // }
   };
+
+  useEffect(() => {
+    //we have two routes which is fine because this is a get request getting info on if the user is logged in or not
+    axios.get("/login").then((response) => {
+      console.log(response);
+      //only if the status of logged in is true do we want to show the username
+      if (response.data.loggedIn === true) {
+        setLoginStatus(response.data.user[0].email);
+      }
+    });
+  }, []);
 
   //inserts the user into the database upon registration
   const handleRegisterBtn = (event) => {

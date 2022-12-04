@@ -88,12 +88,22 @@ app.post("/login", (req, res) => {
     }
     //there is someone in the db with that username/password combination
     if (result.length > 0) {
+      req.session.user = result;
+      console.log(req.session.user);
       res.json({ auth: true, result: result });
     } else {
       //happens if no user exists
       res.json({ auth: false, message: "No user exists" });
     }
   });
+});
+
+app.get("/login", (req, res) => {
+  if (req.session.user) {
+    res.send({ loggedIn: true, user: req.session.user });
+  } else {
+    res.send({ loggedIn: false });
+  }
 });
 
 app.listen(8000, () => {
