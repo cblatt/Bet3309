@@ -4,7 +4,7 @@ import Homepage from "./Homepage/Homepage";
 import Login from "./Login/Login";
 import Signup from "./Signup/Signup";
 import PlayerSearch from "./Player Search/PlayerSearch";
-import teamRosters from "./Team Rosters/teamRosters";
+import TeamRosters from "./Team Rosters/teamRosters";
 import Standings from "./Standings/Standings";
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
             <Route
               exact
               path="/teamRosters"
-              element={<teamRosters></teamRosters>}
+              element={<TeamRosters></TeamRosters>}
             />
           </Routes>
         </Router>
