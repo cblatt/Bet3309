@@ -27,6 +27,258 @@ export default function Homepage() {
     }
   }
 
+  //needs to be called with week and home_team taken from the row of the button clicked (will probably need game_id in that table to do this)
+  async function predictGame() {
+    let week = "13";
+    let home_team = "TB";
+    let home_spread = 2.5;
+    let away_spread = 0;
+    let game_stats = await fetch(`/predict/${week}/${home_team}`);
+    game_stats = await game_stats.json();
+    let avg_stats = await fetch(`/predict/avg`);
+    avg_stats = await avg_stats.json();
+
+    //stat brackets
+    let avgPF = avg_stats[0].avg_pf;
+    let greatPF = avgPF + avgPF * 0.25;
+    let goodPF = avgPF + avgPF * 0.075;
+    let ngreatPF = avgPF - avgPF * 0.25;
+    let ngoodPF = avgPF - avgPF * 0.075;
+
+    let avgPA = avg_stats[0].avg_pa;
+    let greatPA = avgPA - avgPA * 0.25;
+    let goodPA = avgPA - avgPA * 0.075;
+    let ngreatPA = avgPA + avgPA * 0.25;
+    let ngoodPA = avgPA + avgPA * 0.075;
+
+    let avgPYF = avg_stats[0].avg_passf;
+    let greatPYF = avgPYF + avgPYF * 0.2;
+    let goodPYF = avgPYF + avgPYF * 0.05;
+    let ngreatPYF = avgPYF - avgPYF * 0.2;
+    let ngoodPYF = avgPYF - avgPYF * 0.05;
+
+    let avgPYA = avg_stats[0].avg_passa;
+    let greatPYA = avgPYA - avgPYA * 0.2;
+    let goodPYA = avgPYA - avgPYA * 0.05;
+    let ngreatPYA = avgPYA + avgPYA * 0.2;
+    let ngoodPYA = avgPYA + avgPYA * 0.05;
+
+    let avgRYF = avg_stats[0].avg_rushf;
+    let greatRYF = avgRYF + avgRYF * 0.2;
+    let goodRYF = avgRYF + avgRYF * 0.05;
+    let ngreatRYF = avgRYF - avgRYF * 0.2;
+    let ngoodRYF = avgRYF - avgRYF * 0.05;
+
+    let avgRYA = avg_stats[0].avg_rusha;
+    let greatRYA = avgRYA - avgRYA * 0.2;
+    let goodRYA = avgRYA - avgRYA * 0.05;
+    let ngreatRYA = avgRYA + avgRYA * 0.2;
+    let ngoodRYA = avgRYA + avgRYA * 0.05;
+
+    //home PF
+    if (game_stats[0].home_pf > greatPF) {
+      home_spread += 3;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pf > goodPF) {
+      home_spread += 2;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pf < ngreatPF) {
+      home_spread -= 3;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pf < ngoodPF) {
+      home_spread -= 2;
+      console.log("HS" + home_spread);
+    }
+    //away PF
+    if (game_stats[0].away_pf > greatPF) {
+      away_spread += 3;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pf > goodPF) {
+      away_spread += 2;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pf < ngreatPF) {
+      away_spread -= 3;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pf < ngoodPF) {
+      away_spread -= 2;
+      console.log("AS" + away_spread);
+    }
+
+    //home PA
+    if (game_stats[0].home_pa < greatPA) {
+      home_spread += 3;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pa < goodPA) {
+      home_spread += 2;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pa > ngreatPA) {
+      home_spread -= 3;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_pa > ngoodPA) {
+      home_spread -= 2;
+      console.log("HS" + home_spread);
+    }
+    //away PA
+    if (game_stats[0].away_pa < greatPA) {
+      away_spread += 3;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pa < goodPA) {
+      away_spread += 2;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pa > ngreatPA) {
+      away_spread -= 3;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_pa > ngoodPA) {
+      away_spread -= 2;
+      console.log("AS" + away_spread);
+    }
+    //home PYF
+    if (game_stats[0].home_passf > greatPYF) {
+      home_spread += 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passf > goodPYF) {
+      home_spread += 1;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passf < ngreatPYF) {
+      home_spread -= 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passf < ngoodPYF) {
+      home_spread -= 1;
+      console.log("HS" + home_spread);
+    }
+    //away PYF
+    if (game_stats[0].away_passf > greatPYF) {
+      away_spread += 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passf > goodPYF) {
+      away_spread += 1;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passf < ngreatPYF) {
+      away_spread -= 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passf < ngoodPYF) {
+      away_spread -= 1;
+      console.log("AS" + away_spread);
+    }
+    //home PYA
+    if (game_stats[0].home_passa < greatPYA) {
+      home_spread += 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passa < goodPYA) {
+      home_spread += 1;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passa > ngreatPYA) {
+      home_spread -= 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_passa > ngoodPYA) {
+      home_spread -= 1;
+      console.log("HS" + home_spread);
+    }
+
+    //away PYA
+    if (game_stats[0].away_passa < greatPYA) {
+      away_spread += 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passa < goodPYA) {
+      away_spread += 1;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passa > ngreatPYA) {
+      away_spread -= 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_passa > ngoodPYA) {
+      away_spread -= 1;
+      console.log("AS" + away_spread);
+    }
+
+    //home RYF
+    if (game_stats[0].home_rushf > greatRYF) {
+      home_spread += 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rushf > goodRYF) {
+      home_spread += 1;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rushf < ngreatRYF) {
+      home_spread -= 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rushf < ngoodRYF) {
+      home_spread -= 1;
+      console.log("HS" + home_spread);
+    }
+
+    //away RYF
+    if (game_stats[0].away_rushf > greatRYF) {
+      away_spread += 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rushf > goodRYF) {
+      away_spread += 1;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rushf < ngreatRYF) {
+      away_spread -= 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rushf < ngoodRYF) {
+      away_spread -= 1;
+      console.log("AS" + away_spread);
+    }
+
+    //home RYA
+    if (game_stats[0].home_rusha < greatRYA) {
+      home_spread += 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rusha < goodRYA) {
+      home_spread += 1;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rusha > ngreatRYA) {
+      home_spread -= 1.5;
+      console.log("HS" + home_spread);
+    } else if (game_stats[0].home_rusha > ngoodRYA) {
+      home_spread -= 1;
+      console.log("HS" + home_spread);
+    }
+
+    //away RYA
+    if (game_stats[0].away_rusha < greatRYA) {
+      away_spread += 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rusha < goodRYA) {
+      away_spread += 1;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rusha > ngreatRYA) {
+      away_spread -= 1.5;
+      console.log("AS" + away_spread);
+    } else if (game_stats[0].away_rusha > ngoodRYA) {
+      away_spread -= 1;
+      console.log("AS" + away_spread);
+    }
+
+    let prediction = home_spread - away_spread;
+    if (prediction > 0) {
+      console.log(
+        "OUR PREDICTION: " +
+          home_team +
+          " BEATS " +
+          game_stats[0].away_team +
+          " BY " +
+          prediction +
+          " POINTS"
+      );
+    } else if (prediction < 0) {
+      prediction = prediction * -1;
+      console.log(
+        "OUR PREDICTION: " +
+          home_team +
+          " LOSES TO " +
+          game_stats[0].away_team +
+          " BY " +
+          prediction +
+          " POINTS"
+      );
+    } else {
+      console.log(
+        "WE THINK THIS GAME COULD GO ETHIER WAY, WE CANNOT PREDICT A WINNER"
+      );
+    }
+  }
+
   return (
     <div>
       <Navigation />
@@ -83,10 +335,10 @@ export default function Homepage() {
           <tr>
             <th>Home Team</th>
             <th>Record</th>
-            <th>Home score</th>
+            <th>Home Score</th>
             <th>Away Team</th>
             <th>Record</th>
-            <th>Away score</th>
+            <th>Away Score</th>
             <th>Game Day</th>
             <th>Game Time</th>
             <th>Prediction</th>
@@ -108,7 +360,9 @@ export default function Homepage() {
               <td>{item.game_time}</td>
 
               <td>
-                <Button className="btn btn-dark">Predict</Button>
+                <Button className="btn btn-dark" onClick={predictGame}>
+                  Predict
+                </Button>
               </td>
             </tr>
           ))}
