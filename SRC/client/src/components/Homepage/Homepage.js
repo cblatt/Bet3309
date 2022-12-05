@@ -30,7 +30,7 @@ export default function Homepage() {
 
   //needs to be called with week and home_team taken from the row of the button clicked (will probably need game_id in that table to do this)
   async function predictGame(hTeam) {
-    let week = document.getElementById('list-games').value;
+    let week = document.getElementById("list-games").value;
     let home_team = hTeam;
     let home_spread = 2.5;
     let away_spread = 0;
@@ -253,55 +253,65 @@ export default function Homepage() {
 
     let prediction = home_spread - away_spread;
     if (prediction > 0) {
-      document.getElementById('predictionList').appendChild(document.createTextNode(
-        "OUR PREDICTION: " +
-          home_team +
-          " BEATS " +
-          game_stats[0].away_team +
-          " BY " +
-          prediction +
-          " POINTS"
-      ));
+      document
+        .getElementById("predictionList")
+        .appendChild(
+          document.createTextNode(
+            "OUR PREDICTION: " +
+              home_team +
+              " BEATS " +
+              game_stats[0].away_team +
+              " BY " +
+              prediction +
+              " POINTS"
+          )
+        );
     } else if (prediction < 0) {
       prediction = prediction * -1;
-      document.getElementById('predictionList').appendChild(document.createTextNode(
-        "OUR PREDICTION: " +
-          home_team +
-          " LOSES TO " +
-          game_stats[0].away_team +
-          " BY " +
-          prediction +
-          " POINTS"
-      ));
+      document
+        .getElementById("predictionList")
+        .appendChild(
+          document.createTextNode(
+            "OUR PREDICTION: " +
+              home_team +
+              " LOSES TO " +
+              game_stats[0].away_team +
+              " BY " +
+              prediction +
+              " POINTS"
+          )
+        );
     } else {
-      document.getElementById('predictionList').appendChild(
-        "WE THINK THIS GAME COULD GO ETHIER WAY, WE CANNOT PREDICT A WINNER"
-      );
+      document
+        .getElementById("predictionList")
+        .appendChild(
+          "WE THINK THIS GAME COULD GO ETHIER WAY, WE CANNOT PREDICT A WINNER"
+        );
     }
 
-    document.getElementById('predictionList').appendChild(document.createElement('br'));
-    
+    document
+      .getElementById("predictionList")
+      .appendChild(document.createElement("br"));
 
-    var closeBtn = document.createElement('button');
-    closeBtn.style.height = '40px';
-    closeBtn.style.width = '210px';
-    closeBtn.innerHTML = 'Close Prediction';
-    closeBtn.id = 'predCloseBtn';
-    document.getElementById('predictionList').appendChild(closeBtn);
-    closeBtn.addEventListener('click', () => {
-      var pred = document.getElementById('predictionList');
-      while(pred.firstChild){
+    var closeBtn = document.createElement("button");
+    closeBtn.style.height = "40px";
+    closeBtn.style.width = "210px";
+    closeBtn.innerHTML = "Close Prediction";
+    closeBtn.id = "predCloseBtn";
+    document.getElementById("predictionList").appendChild(closeBtn);
+    closeBtn.addEventListener("click", () => {
+      var pred = document.getElementById("predictionList");
+      while (pred.firstChild) {
         pred.removeChild(pred.firstChild);
       }
-    })
+    });
   }
 
-  function closePrediction(){
-    var predictList = document.getElementById('predictionList');
-    while(predictList.firstChild){
+  function closePrediction() {
+    var predictList = document.getElementById("predictionList");
+    while (predictList.firstChild) {
       predictList.removeChild(predictList.firstChild);
     }
-    
   }
 
   return (
@@ -322,9 +332,7 @@ export default function Homepage() {
         <Favorites />
         <br />
         <center>
-          <ol id="predictionList">
-
-          </ol>
+          <ol id="predictionList"></ol>
         </center>
         <span
           style={{
@@ -385,17 +393,21 @@ export default function Homepage() {
               <td>{item.home_score}</td>
               <td>{item.away_team}</td>
               <td>
-                {item.away_wins}-{item.home_losses}-{item.home_ties}
+                {item.away_wins}-{item.away_losses}-{item.away_ties}
               </td>
               <td>{item.away_score}</td>
               <td>{item.game_day.slice(0, 10)}</td>
               <td>{item.game_time}</td>
 
               <td>
-                <Button className="btn btn-dark" id="predictBtn" onClick={() => {
-                  closePrediction();
-                  predictGame(item.home_team);
-                }}>
+                <Button
+                  className="btn btn-dark"
+                  id="predictBtn"
+                  onClick={() => {
+                    closePrediction();
+                    predictGame(item.home_team);
+                  }}
+                >
                   Predict
                 </Button>
               </td>
