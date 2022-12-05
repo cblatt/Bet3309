@@ -36,7 +36,7 @@ CREATE TABLE `TeamAbbreviation` (
 
 LOCK TABLES `TeamAbbreviation` WRITE;
 /*!40000 ALTER TABLE `TeamAbbreviation` DISABLE KEYS */;
-INSERT INTO `TeamAbbreviation` VALUES ('ARI','Cardinals'),('ATL','Falcons'),('BAL','Ravens'),('BUF','Bills'),('CAR','Panthers'),('CHI','Bears'),('CIN','Bengals'),('CLE','Browns'),('DAL','Cowboys'),('DEN','Broncos'),('DET','Lions'),('GB','Packers'),('HOU','Texans'),('IND','Colts'),('JAX','Jaguars'),('KC','Chiefs'),('LA','Rams'),('LAC','Chargers'),('LV','Raiders'),('MIA','Dolphins'),('MIN','Vikings'),('NE','Patriots'),('NO','Saints'),('NYG','Giants'),('NYJ','Jets'),('PHI','Eagles'),('PIT','Steelers'),('SEA','Seattle Seahawks'),('SF','49ers'),('TB','Buccaneers'),('TEN','Titans'),('WAS','Commanders');
+INSERT INTO `TeamAbbreviation` VALUES ('ARI','Cardinals'),('ATL','Falcons'),('BAL','Ravens'),('BUF','Bills'),('CAR','Panthers'),('CHI','Bears'),('CIN','Bengals'),('CLE','Browns'),('DAL','Cowboys'),('DEN','Broncos'),('DET','Lions'),('GB','Packers'),('HOU','Texans'),('IND','Colts'),('JAX','Jaguars'),('KC','Chiefs'),('LA','Rams'),('LAC','Chargers'),('LV','Raiders'),('MIA','Dolphins'),('MIN','Vikings'),('NE','Patriots'),('NO','Saints'),('NYG','Giants'),('NYJ','Jets'),('PHI','Eagles'),('PIT','Steelers'),('SEA','Seattle'),('SF','49ers'),('TB','Buccaneers'),('TEN','Titans'),('WAS','Commanders');
 /*!40000 ALTER TABLE `TeamAbbreviation` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-22 19:17:55
+-- Dump completed on 2022-12-05 14:44:26

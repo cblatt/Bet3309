@@ -26,9 +26,10 @@ CREATE TABLE `User` (
   `username` varchar(100) NOT NULL,
   `uf_Name` varchar(50) NOT NULL,
   `ul_Name` varchar(50) NOT NULL,
-  `email` varchar(100) UNIQUE NOT NULL,
+  `email` varchar(100) NOT NULL,
   `password` varchar(50) NOT NULL,
-  PRIMARY KEY (`username`)
+  PRIMARY KEY (`username`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -38,7 +39,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('test','brayden','thompson','btomp89@uwo.ca','password'),('tis','Tisal','Dyratyna','tisald@uwo.ca','password');
+INSERT INTO `User` VALUES ('softwarejunkemail89','Brayden','Thompsom','softwarejunkemail89@gmail.com','password'),('test','brayden','thompson','bthomp89@uwo.ca','password');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-22 19:17:56
+-- Dump completed on 2022-12-05 14:44:27
