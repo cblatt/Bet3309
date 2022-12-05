@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navigation from "../Navigation/Navigation";
-import axios from "axios";
+
 
 import "./teamRosters.css";
 
@@ -11,19 +11,21 @@ function TeamRosters() {
       const team = document.getElementById("teams").value
       
 
-        let players = await fetch("/roster/"+team)
+        let players = await fetch(`/roster/${team}`);
           players = await players.json();
+          
+          let playersNm = [];
           let i =0
           for(i in players){
-            players[i] = players.data[i].pf_name.concat(' '+players.data[i].pl_name)
+            playersNm[i] = players[i].pf_name.concat(' '+players[i].pl_name)
           
           }
           while (l.hasChildNodes()) {
             l.removeChild(l.firstChild);
           }
-          for(i in players){
+          for(i in playersNm){
               const li = document.createElement("li")
-              li.appendChild(document.createTextNode(players[i]))
+              li.appendChild(document.createTextNode(playersNm[i]))
               l.appendChild(li)
           }
 
@@ -93,6 +95,10 @@ function TeamRosters() {
    
      <ul id="names" ></ul>
     </div>
+
+
+        
+    
     </>
     
 
