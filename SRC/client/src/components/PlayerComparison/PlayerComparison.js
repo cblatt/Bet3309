@@ -1,6 +1,7 @@
 import React from "react";
 import { CloseButton } from "react-bootstrap";
 import "./PlayerComparison.css";
+import  Navigation  from "../Navigation/Navigation";
 
 export default function PlayerComparison() {
 
@@ -89,6 +90,7 @@ export default function PlayerComparison() {
 
   return (
     <div>
+        <Navigation/>
 
       <center>
         <div>

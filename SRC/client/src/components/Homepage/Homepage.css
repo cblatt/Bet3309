@@ -36,4 +36,15 @@
   }
   /* Predict button css */
 
+  #predictionList{
+    font-family: Copperplate;
+    font-weight: bold;
+    font-size: 45px;
+    color: green;
+  }
+  #predCloseBtn{
+    font-size: 20px;
+    font-family: Copperplate;
+  }
+
 
