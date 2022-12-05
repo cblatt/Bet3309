@@ -3,29 +3,35 @@ import { useEffect, useState } from "react";
 import "./History.css";
 import Navigation from "../Navigation/Navigation";
 import { Button } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import Favorites from "../Favorites/Favorites";
 
 export default function History() {
   // Holds upcoming game info
   const [games, setgames] = useState([]);
+  const location = useLocation();
   useEffect(() => {
     getGames();
-  }, []);
+    if (location.state !== null) {
+      document.getElementById("list-teams").value = location.state.teamName;
+      document.getElementById("list-years").value = "2022";
+      getGames("2022", location.state.teamName);
+    }
+  }, [location]);
 
   //Gets all games for selected week
   const getGames = async (year, team) => {
     let result = await fetch(`/past/${year}/${team}`);
     result = await result.json();
     setgames(result);
-    
   };
 
   //Check selection of the week and then call get games to display
   function showGames() {
     const team = document.getElementById("list-teams").value;
     const year = document.getElementById("list-years").value;
-    
-      getGames(year, team);
-    
+
+    getGames(year, team);
   }
 
   return (
@@ -39,6 +45,7 @@ export default function History() {
             History
           </span>
         </center>
+        <Favorites />
         <br />
         <span
           style={{
@@ -48,7 +55,8 @@ export default function History() {
           }}
         >
           Team:
-          <select style={{ marginRight:"25px" }}
+          <select
+            style={{ marginRight: "25px" }}
             id="list-teams"
             onChange={() => {
                 showGames();
@@ -101,14 +109,13 @@ export default function History() {
             <option value="2019">2019</option>
             <option value="2018">2018</option>
             <option value="2017">2017</option>
- 
           </select>
         </span>
       </div>
       <br></br>
       <table id="t1">
         <tbody>
-        <tr>
+          <tr>
             <th>Home Team</th>
             <th>Home Score</th>
             <th>Away Team</th>

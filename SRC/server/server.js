@@ -34,10 +34,16 @@ app.use(
     saveUninitialized: false,
     cookie: {
       //means that the cookie expires after 24 hours, so sessions can be maintained for that long
-      expires: 60 * 60 * 24,
+      expires: 60 * 60 * 24 * 1000,
     },
   })
 );
+
+app.get("/logOutUser", (req, res) => {
+  req.session.destroy((err) => {
+    res.clearCookie("userId").send("cleared cookie");
+  });
+});
 
 app.get("/message", (req, res) => {
   res.json({ message: "Hello from server!" });
@@ -233,20 +239,75 @@ app.get("/team/stats/:tName", (req, res) => {
   let tName = req.params.tName;
   let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev = TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
   connection.query(query, (err, data) => {
-    if(err){
+    if (err) {
       console.log(err);
     }
     console.log(data);
     res.send(data);
-  })
+  });
 });
 
 // get all player data and team data
-app.get('/playerAndTeam/:player', (req, res) => {
+app.get("/playerAndTeam/:player", (req, res) => {
   let player = req.params.player;
   let query = `SELECT o.pf_name, o.pl_name, o.team_name, o.pass_yds, o.rec_yds,
   o.rush_yds, (o.pass_td + o.rec_td + o.rush_td) AS td, t.points_for, t.pass_yards, t.pass_yards AS rec_yards, t.rush_yards
   FROM (OffensiveFootballPlayer o JOIN Team t ON o.team_name = t.team_abbrev) WHERE pf_name LIKE "%${player}%" OR pl_name LIKE "%${player}%"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//adds the team to the list of user's favorites
+app.post("/:team/:username", (req, res) => {
+  const username = req.body.username;
+  const team = req.body.team;
+
+  let query = `INSERT INTO Favourites VALUES ("${username}", "${team}") `;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//grabs the favorited teams based on the user name
+app.get("/favorites/:username", (req, res) => {
+  const username = req.params.username;
+  console.log(username);
+
+  let query = `SELECT fav_team_name FROM Favourites WHERE username = "${username}"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//grabs all the team names from the team table
+app.get("/teams", (req, res) => {
+  let query = `SELECT team_abbrev FROM Team`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+app.post("/unfavorite/:user/:team", (req, res) => {
+  const user = req.params.user;
+  const team = req.params.team;
+  let query = `DELETE FROM Favourites WHERE username="${user}" AND fav_team_name="${team}"`;
   connection.query(query, (err, data) => {
     if (err) {
       console.log(err);
@@ -296,6 +357,36 @@ app.post("/register", (req, res) => {
   const password = req.body.password;
 
   let query = `INSERT INTO User VALUES ("${username}", "${uf_Name}", "${ul_Name}", "${email}", "${password}")`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+app.get("/off/pass_yds", (req, res) => {
+  let query = `SELECT pf_name, pl_name, pass_yds FROM OffensiveFootballPlayer ORDER BY pass_yds DESC LIMIT 15`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+app.get("/off/rec_yds", (req, res) => {
+  let query = `SELECT pf_name, pl_name, rec_yds FROM OffensiveFootballPlayer ORDER BY rec_yds DESC LIMIT 15`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+app.get("/off/rush_yds", (req, res) => {
+  let query = `SELECT pf_name, pl_name, rush_yds FROM OffensiveFootballPlayer ORDER BY rush_yds DESC LIMIT 15`;
   connection.query(query, (err, data) => {
     if (err) {
       console.error(err);
