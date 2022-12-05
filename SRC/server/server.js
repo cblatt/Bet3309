@@ -231,7 +231,22 @@ app.get("/kick/stats/:player", (req, res) => {
 
 app.get("/team/stats/:tName", (req, res) => {
   let tName = req.params.tName;
-  let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev =  TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
+  let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev = TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
+  connection.query(query, (err, data) => {
+    if(err){
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  })
+});
+
+// get all player data and team data
+app.get('/playerAndTeam/:player', (req, res) => {
+  let player = req.params.player;
+  let query = `SELECT o.pf_name, o.pl_name, o.team_name, o.pass_yds, o.rec_yds,
+  o.rush_yds, (o.pass_td + o.rec_td + o.rush_td) AS td, t.points_for, t.pass_yards, t.pass_yards AS rec_yards, t.rush_yards
+  FROM (OffensiveFootballPlayer o JOIN Team t ON o.team_name = t.team_abbrev) WHERE pf_name LIKE "%${player}%" OR pl_name LIKE "%${player}%"`;
   connection.query(query, (err, data) => {
     if (err) {
       console.log(err);
@@ -343,6 +358,39 @@ app.post("/register", (req, res) => {
     console.log(data);
     res.send(data);
   });
+});
+app.get("/off/pass_yds",(req,res)=>{
+  let query = `SELECT pf_name, pl_name, pass_yds FROM OffensiveFootballPlayer ORDER BY pass_yds DESC LIMIT 15`
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+
+})
+});
+app.get("/off/rec_yds",(req,res)=>{
+  let query = `SELECT pf_name, pl_name, rec_yds FROM OffensiveFootballPlayer ORDER BY rec_yds DESC LIMIT 15`
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+
+})
+});
+app.get("/off/rush_yds",(req,res)=>{
+  let query = `SELECT pf_name, pl_name, rush_yds FROM OffensiveFootballPlayer ORDER BY rush_yds DESC LIMIT 15`
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+
+})
 });
 
 app.listen(8000, () => {

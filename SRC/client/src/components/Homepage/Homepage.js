@@ -29,9 +29,9 @@ export default function Homepage() {
   }
 
   //needs to be called with week and home_team taken from the row of the button clicked (will probably need game_id in that table to do this)
-  async function predictGame() {
-    let week = "13";
-    let home_team = "TB";
+  async function predictGame(hTeam) {
+    let week = document.getElementById('list-games').value;
+    let home_team = hTeam;
     let home_spread = 2.5;
     let away_spread = 0;
     let game_stats = await fetch(`/predict/${week}/${home_team}`);
@@ -253,7 +253,7 @@ export default function Homepage() {
 
     let prediction = home_spread - away_spread;
     if (prediction > 0) {
-      console.log(
+      document.getElementById('predictionList').appendChild(document.createTextNode(
         "OUR PREDICTION: " +
           home_team +
           " BEATS " +
@@ -261,10 +261,10 @@ export default function Homepage() {
           " BY " +
           prediction +
           " POINTS"
-      );
+      ));
     } else if (prediction < 0) {
       prediction = prediction * -1;
-      console.log(
+      document.getElementById('predictionList').appendChild(document.createTextNode(
         "OUR PREDICTION: " +
           home_team +
           " LOSES TO " +
@@ -272,12 +272,36 @@ export default function Homepage() {
           " BY " +
           prediction +
           " POINTS"
-      );
+      ));
     } else {
-      console.log(
+      document.getElementById('predictionList').appendChild(
         "WE THINK THIS GAME COULD GO ETHIER WAY, WE CANNOT PREDICT A WINNER"
       );
     }
+
+    document.getElementById('predictionList').appendChild(document.createElement('br'));
+    
+
+    var closeBtn = document.createElement('button');
+    closeBtn.style.height = '40px';
+    closeBtn.style.width = '210px';
+    closeBtn.innerHTML = 'Close Prediction';
+    closeBtn.id = 'predCloseBtn';
+    document.getElementById('predictionList').appendChild(closeBtn);
+    closeBtn.addEventListener('click', () => {
+      var pred = document.getElementById('predictionList');
+      while(pred.firstChild){
+        pred.removeChild(pred.firstChild);
+      }
+    })
+  }
+
+  function closePrediction(){
+    var predictList = document.getElementById('predictionList');
+    while(predictList.firstChild){
+      predictList.removeChild(predictList.firstChild);
+    }
+    
   }
 
   return (
@@ -297,6 +321,11 @@ export default function Homepage() {
         <br />
         <Favorites />
         <br />
+        <center>
+          <ol id="predictionList">
+
+          </ol>
+        </center>
         <span
           style={{
             fontSize: "20px",
@@ -307,7 +336,7 @@ export default function Homepage() {
           Games:
           <select
             id="list-games"
-            onClick={() => {
+            onChange={() => {
               showGames();
             }}
           >
@@ -363,7 +392,10 @@ export default function Homepage() {
               <td>{item.game_time}</td>
 
               <td>
-                <Button className="btn btn-dark" onClick={predictGame}>
+                <Button className="btn btn-dark" id="predictBtn" onClick={() => {
+                  closePrediction();
+                  predictGame(item.home_team);
+                }}>
                   Predict
                 </Button>
               </td>

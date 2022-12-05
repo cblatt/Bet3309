@@ -58,9 +58,9 @@ export default function History() {
           <select
             style={{ marginRight: "25px" }}
             id="list-teams"
-            onClick={() => {
-              showGames();
-            }}
+            onChange={() => {
+                showGames();
+              }}
           >
             <option value="TEAM">Team</option>
             <option value="ARI">ARI</option>
@@ -98,7 +98,7 @@ export default function History() {
           Year:
           <select
             id="list-years"
-            onClick={() => {
+            onChange={() => {
               showGames();
             }}
           >

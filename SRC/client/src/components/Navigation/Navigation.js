@@ -16,7 +16,7 @@ export default function Navigation() {
             Homepage
           </NavLink>
           <NavLink eventKey="2" as={Link} to="/player-search">
-            Player Search
+            Search
           </NavLink>
           <NavLink eventKey="3" as={Link} to="/teamRosters">
             Rosters
@@ -24,8 +24,15 @@ export default function Navigation() {
           <NavLink eventKey="4" as={Link} to="/standings">
             Standings
           </NavLink>
-          <NavLink eventKey="5" as={Link} to="/history">
+          <NavLink eventKey="5" as={Link} to="/player-comparison">
+            Player Contribution
+          </NavLink>
+
+          <NavLink eventKey="6" as={Link} to="/history">
             History
+          </NavLink>
+          <NavLink eventKey="7" as={Link} to="/league-leaders">
+            League Leaders
           </NavLink>
         </Nav>
       </Navbar.Collapse>
