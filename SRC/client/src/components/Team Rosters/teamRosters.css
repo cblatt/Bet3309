@@ -1,0 +1,30 @@
+#label{
+    font-size:50px;
+    text-align: center;
+}
+#App{
+    text-align:center;
+    display: block;
+}
+#one{
+    display:block;
+    text-align:center;
+}
+#two{
+    display:block;
+    text-align:center;
+}
+#names{
+    list-style:none;
+}
+
+#label{
+    font-family: Impact;
+    font-size: 50px;
+}
+#divisions{
+    margin-bottom: 20px;
+}
+#teams{
+    margin-bottom:20px;
+}
