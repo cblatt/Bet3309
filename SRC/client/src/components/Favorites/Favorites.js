@@ -8,6 +8,8 @@ export default function Favorites() {
   const [selectedOptions, setSelectedOptions] = useState();
   const [username, setUsername] = useState("");
 
+  const [value, setValue] = useState();
+
   const navigate = useNavigate();
 
   //the list that populates the drop down menu
@@ -85,11 +87,17 @@ export default function Favorites() {
                   "Content-length": 2,
                 },
               });
+              refresh();
             });
           }
         });
     }
   }
+
+  const refresh = () => {
+    // it re-renders the component
+    setValue({});
+  };
 
   function handleSetTeams() {
     for (let i = 0; i < selectedOptions.length; i++) {
@@ -107,6 +115,7 @@ export default function Favorites() {
         }),
       });
     }
+    refresh();
   }
 
   return (
