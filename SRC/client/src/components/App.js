@@ -7,6 +7,7 @@ import Signup from "./Signup/Signup";
 import PlayerSearch from "./Player Search/PlayerSearch";
 import TeamRosters from "./Team Rosters/teamRosters";
 import Standings from "./Standings/Standings";
+import LeagueLeaders from "./League Leaders/LeagueLeaders.js"
 import History from "./History/History";
 
 function App() {
@@ -30,7 +31,13 @@ function App() {
               path="/teamRosters"
               element={<TeamRosters></TeamRosters>}
             />
+            <Route 
+            exact
+            path="/league-leaders"
+            element={<LeagueLeaders></LeagueLeaders>}
+            />
           </Routes>
+          
         </Router>
       </div>
     </div>
