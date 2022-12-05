@@ -168,8 +168,8 @@ app.get("/divs/:d_name", (req, res) => {
 
 //Geting standings for whole leauge
 app.get("/standings/leauge", (req, res) => {
-  let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
-  FROM (Team t JOIN Division d ON t.div_name = d.div_name) ORDER BY t.games_won DESC`;
+  let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
+  FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev) ORDER BY t.games_won DESC`;
   connection.query(query, (err, data) => {
     if (err) {
       res.status(400).send(err);
@@ -179,8 +179,9 @@ app.get("/standings/leauge", (req, res) => {
 });
 //Getting standing for confrence
 app.get("/standings/confrence/:cnf", (req, res) => {
-  let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
-  FROM (Team t JOIN Division d ON t.div_name = d.div_name) WHERE d.conf_name = "${req.params.cnf}" ORDER BY t.games_won DESC`;
+  let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
+  FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev) WHERE d.conf_name = "${req.params.cnf}" ORDER BY t.games_won DESC`;
+
   connection.query(query, (err, data) => {
     if (err) {
       res.status(400).send(err);
@@ -190,8 +191,9 @@ app.get("/standings/confrence/:cnf", (req, res) => {
 });
 //Getting standing for division
 app.get("/standings/division/:div", (req, res) => {
-  let query = `SELECT t.team_abbrev, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
-  FROM (Team t JOIN Division d ON t.div_name = d.div_name) WHERE d.div_name = "${req.params.div}" ORDER BY t.games_won DESC`;
+  let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
+  FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev)  WHERE d.div_name = "${req.params.div}" ORDER BY t.games_won DESC`;
+
   connection.query(query, (err, data) => {
     if (err) {
       res.status(400).send(err);

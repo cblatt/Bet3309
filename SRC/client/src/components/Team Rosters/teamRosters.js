@@ -82,7 +82,7 @@ function TeamRosters() {
           Search Roster
         </button>
 
-        <ul id="names"></ul>
+        <ul className="names" id="names"></ul>
       </div>
     </>
   );

@@ -90,6 +90,8 @@ export default function Standings() {
         <table id="t2">
           <tbody>
             <tr>
+              <th>Abrv</th>
+              <th>City</th>
               <th>Team</th>
               <th>Record</th>
             </tr>
@@ -97,9 +99,12 @@ export default function Standings() {
             {stand.map((item) => (
               <tr>
                 <td>{item.team_abbrev}</td>
+                <td>{item.team_city}</td>
+                <td>{item.team_name}</td>
                 <td>
                   {item.games_won}-{item.games_lost}-{item.games_tied}
                 </td>
+                
               </tr>
             ))}
           </tbody>
