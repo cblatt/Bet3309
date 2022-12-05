@@ -60,8 +60,7 @@ export default function Login() {
   }, []);
 
   //inserts the user into the database upon registration
-  const handleRegisterBtn = (event) => {
-    event.preventDefault();
+  const handleRegisterBtn = () => {
     fetch(`/register`, {
       method: "POST",
       headers: {
@@ -102,7 +101,6 @@ export default function Login() {
   return (
     <div>
       <div className="Auth-form-container">
-        <h1>{loginStatus}</h1>
         <form className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
@@ -172,7 +170,7 @@ export default function Login() {
               <label>Email address</label>
               <input
                 type="email"
-                id="passwordReg"
+                id="emailReg"
                 className="form-control mt-1"
                 placeholder="Enter email"
                 onChange={(e) => handleInputChange(e)}
@@ -182,7 +180,7 @@ export default function Login() {
               <label>Password</label>
               <input
                 type="password"
-                id="confirmPassword"
+                id="passwordReg"
                 className="form-control mt-1"
                 placeholder="Enter password"
                 onChange={(e) => handleInputChange(e)}
