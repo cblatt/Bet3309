@@ -31,6 +31,9 @@ export default function Navigation() {
           <NavLink eventKey="6" as={Link} to="/history">
             History
           </NavLink>
+          <NavLink eventKey="6" as={Link} to="/league-leaders">
+            League Leaders
+          </NavLink>
 
         </Nav>
       </Navbar.Collapse>
