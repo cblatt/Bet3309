@@ -34,6 +34,12 @@ export default function Navigation() {
           <NavLink eventKey="7" as={Link} to="/league-leaders">
             League Leaders
           </NavLink>
+          <NavLink eventKey="8" as={Link} to="/">
+            Login
+          </NavLink>
+          <NavLink eventKey="9" as={Link} to="/signup">
+            Sign up
+          </NavLink>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
