@@ -24,14 +24,15 @@ export default function LeagueLeaders() {
           );
           let lname = document.createTextNode(res.data[i].pl_name);
           let yds = document.createTextNode(
-            "Passing Yards: " + res.data[i].pass_yds
+            " Passing Yards: " + res.data[i].pass_yds
           );
           l.appendChild(fname);
           l.appendChild(lname);
-          l1.appendChild(yds);
+          l.appendChild(l3)
+          l.appendChild(yds);
           u.appendChild(l);
-          u.appendChild(l1);
-          u.appendChild(l3);
+         // u.appendChild(l1);
+          //u.appendChild(l3);
         }
       });
     } catch (err) {}
@@ -56,14 +57,15 @@ export default function LeagueLeaders() {
           );
           let lname = document.createTextNode(res.data[i].pl_name);
           let yds = document.createTextNode(
-            "Rushing Yards: " + res.data[i].rush_yds
+            " Rushing Yards: " + res.data[i].rush_yds
           );
           l.appendChild(fname);
           l.appendChild(lname);
-          l1.appendChild(yds);
+          l.appendChild(l3)
+          l.appendChild(yds);
           u.appendChild(l);
-          u.appendChild(l1);
-          u.appendChild(l3);
+         // u.appendChild(l1);
+          //u.appendChild(l3);
         }
       });
     } catch (err) {}
@@ -88,14 +90,15 @@ export default function LeagueLeaders() {
           );
           let lname = document.createTextNode(res.data[i].pl_name);
           let yds = document.createTextNode(
-            "Recieving Yards: " + res.data[i].rec_yds
+            " Recieving Yards: " + res.data[i].rec_yds
           );
           l.appendChild(fname);
           l.appendChild(lname);
-          l1.appendChild(yds);
+          l.appendChild(l3)
+          l.appendChild(yds);
           u.appendChild(l);
-          u.appendChild(l1);
-          u.appendChild(l3);
+         // u.appendChild(l1);
+          //u.appendChild(l3);
         }
       });
     } catch (err) {}
@@ -112,19 +115,21 @@ export default function LeagueLeaders() {
           <button id="pass_yds" onClick={showPass}>
             Show Leading Passing Yards
           </button>
-          <ul className="list" id="pass_ydsList"></ul>
+          <div class = "vertical"></div>
+          <ol className="list" id="pass_ydsList"></ol>
         </div>
         <div id="rec">
           <button id="rec_yds" onClick={showRec}>
             Show Leading Recieving Yards
           </button>
-          <ul className="list" id="rec_ydsList"></ul>
+          <ol className="list" id="rec_ydsList"></ol>
         </div>
+        <div class = "vertical"></div>
         <div id="rush">
           <button id="rush_yds" onClick={showRush}>
             Show Leading Rushing Yards
           </button>
-          <ul className="list" id="rush_ydsList"></ul>
+          <ol className="list" id="rush_ydsList"></ol>
         </div>
       </div>
     </>
