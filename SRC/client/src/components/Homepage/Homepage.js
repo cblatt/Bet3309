@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import "./Homepage.css";
 import Navigation from "../Navigation/Navigation";
+import Favorites from "../Favorites/Favorites";
 import { Button } from "react-bootstrap";
 
 export default function Homepage() {
@@ -293,6 +294,8 @@ export default function Homepage() {
             An Application To Get You Rich!
           </span>
         </center>
+        <br />
+        <Favorites />
         <br />
         <span
           style={{

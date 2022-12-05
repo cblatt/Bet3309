@@ -283,6 +283,19 @@ app.get("/teams", (req, res) => {
   });
 });
 
+app.post("/unfavorite/:user/:team", (req, res) => {
+  const user = req.params.user;
+  const team = req.params.team;
+  let query = `DELETE FROM Favourites WHERE username="${user}" AND fav_team_name="${team}"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
 app.post("/login", (req, res) => {
   const username = req.body.username;
   const password = req.body.password;

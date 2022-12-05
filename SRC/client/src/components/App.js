@@ -22,7 +22,6 @@ function App() {
             <Route exact path="/homepage" element={<Homepage></Homepage>} />
             <Route exact path="/standings" element={<Standings></Standings>} />
             <Route exact path="/history" element={<History></History>} />
-            <Route exact path="/favorites" element={<Favorites></Favorites>} />
             <Route
               exact
               path="/player-search"

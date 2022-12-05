@@ -4,6 +4,7 @@ import "./History.css";
 import Navigation from "../Navigation/Navigation";
 import { Button } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
+import Favorites from "../Favorites/Favorites";
 
 export default function History() {
   // Holds upcoming game info
@@ -44,6 +45,7 @@ export default function History() {
             History
           </span>
         </center>
+        <Favorites />
         <br />
         <span
           style={{
