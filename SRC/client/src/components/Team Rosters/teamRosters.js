@@ -1,8 +1,8 @@
-import React,{useState, useEffect} from "react";
-import  Navigation  from "../Navigation/Navigation";
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Navigation from "../Navigation/Navigation";
+import axios from "axios";
 
-import "./teamRosters.css"
+import "./teamRosters.css";
 
 function TeamRosters() {
   
@@ -51,10 +51,9 @@ function TeamRosters() {
           }
         }
     
-    
+
   };
 
-  
   const dynamicTeam = (team) => {
     const l = document.getElementById("teams");
     let node = document.createElement("option");
@@ -64,6 +63,7 @@ function TeamRosters() {
 
   return (
     <>
+
     <Navigation/>
     
     <div id="App">
@@ -92,6 +92,9 @@ function TeamRosters() {
      <ul id="names" ></ul>
     </div>
 
+
+        <ul id="names"></ul>
+      </div>
     </>
   );
 }
