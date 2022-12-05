@@ -35,7 +35,7 @@ export default function History() {
         <center>
           <br />
           <br />
-          <span style={{ fontSize: "35px", fontFamily: "Copperplate" }}>
+          <span style={{ fontSize: "50px", fontFamily: "Impact" }}>
             History
           </span>
         </center>

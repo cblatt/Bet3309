@@ -273,9 +273,9 @@ export default function Homepage() {
           " POINTS"
       ));
     } else {
-      document.getElementById('predictionList').appendChild(
-        "WE THINK THIS GAME COULD GO ETHIER WAY, WE CANNOT PREDICT A WINNER"
-      );
+      document.getElementById('predictionList').appendChild(document.createTextNode(
+        "OUR PREDICTION: THIS GAME COULD GO ETHIER WAY"
+      ));
     }
 
     document.getElementById('predictionList').appendChild(document.createElement('br'));

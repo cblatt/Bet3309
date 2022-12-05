@@ -51,7 +51,7 @@ export default function Standings() {
 
         <center>
           <br />
-          <span style={{ fontSize: "35px", fontFamily: "Copperplate" }}>
+          <span style={{ fontSize: "50px", fontFamily: "Impact" }}>
             Standings
           </span>
           <br />
