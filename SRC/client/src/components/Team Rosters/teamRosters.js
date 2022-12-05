@@ -73,7 +73,7 @@ function TeamRosters() {
     <div id="App">
     <label id="label">Team Rosters</label>
     <div id="one">
-    <select id="divisions" onClick = {searchDivision}>
+    <select id="divisions" onChange = {searchDivision}>
               <option value="n/a">--Select A Division--</option>
                 <option value="AFC East">AFC East</option>
                 <option value="AFC North">AFC North</option>

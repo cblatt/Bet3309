@@ -333,7 +333,7 @@ export default function Homepage() {
           Games:
           <select
             id="list-games"
-            onClick={() => {
+            onChange={() => {
               showGames();
             }}
           >
