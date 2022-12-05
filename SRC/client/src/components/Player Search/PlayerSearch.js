@@ -110,6 +110,13 @@ export default function PlayerSearch() {
                 searchList.appendChild(document.createElement('br'));
                 searchList.appendChild(document.createElement('br'));
             }
+            var closeBtn = document.createElement('button');
+            closeBtn.style.height = '30px';
+            closeBtn.style.width = '120px';
+            closeBtn.innerHTML= 'Close';
+            closeBtn.addEventListener('click', clearLeftList);
+            searchList.appendChild(closeBtn);
+            searchList.appendChild(document.createElement('br'));
         }))
     };
 
@@ -426,6 +433,13 @@ export default function PlayerSearch() {
                 searchList.appendChild(document.createElement('br'));
                 searchList.appendChild(document.createElement('br'));
             }
+            var closeBtn = document.createElement('button');
+            closeBtn.style.height = '30px';
+            closeBtn.style.width = '120px';
+            closeBtn.innerHTML= 'Close';
+            closeBtn.addEventListener('click', clearRightList);
+            searchList.appendChild(closeBtn);
+            searchList.appendChild(document.createElement('br'));
         }))
     };
 

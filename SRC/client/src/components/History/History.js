@@ -50,7 +50,7 @@ export default function History() {
           Team:
           <select style={{ marginRight:"25px" }}
             id="list-teams"
-            onClick={() => {
+            onChange={() => {
                 showGames();
               }}
           >
@@ -90,7 +90,7 @@ export default function History() {
           Year:
           <select
             id="list-years"
-            onClick={() => {
+            onChange={() => {
               showGames();
             }}
           >

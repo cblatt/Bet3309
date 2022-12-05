@@ -67,7 +67,7 @@ export default function Standings() {
             Organize by:
             <select
               id="list-games"
-              onClick={() => {
+              onChange={() => {
                 showList();
               }}
             >

@@ -1,50 +1,47 @@
-import React,{useState, useEffect} from "react";
-import  Navigation  from "../Navigation/Navigation";
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Navigation from "../Navigation/Navigation";
 
-import "./teamRosters.css"
+
+import "./teamRosters.css";
 
 function TeamRosters() {
   
-    const getNames =()=>{
+    const getNames = async () => {
       const l = document.getElementById("names")
       const team = document.getElementById("teams").value
-      try{
+      
 
-        axios.get("http://localhost:8000/roster/"+team).then(res=>{
-          let players = res.data
+        let players = await fetch(`/roster/${team}`);
+          players = await players.json();
+          
+          let playersNm = [];
           let i =0
           for(i in players){
-            players[i] = res.data[i].pf_name.concat(' '+res.data[i].pl_name)
+            playersNm[i] = players[i].pf_name.concat(' '+players[i].pl_name)
           
           }
           while (l.hasChildNodes()) {
             l.removeChild(l.firstChild);
           }
-          for(i in players){
+          for(i in playersNm){
               const li = document.createElement("li")
-              li.appendChild(document.createTextNode(players[i]))
+              li.appendChild(document.createTextNode(playersNm[i]))
               l.appendChild(li)
           }
-        })
 
-      }catch{
-
-      }
     }
 
-    const searchDivision = ()=>{
+    const searchDivision = async ()=>{
       
       const div = document.getElementById("divisions").value
-      try{
-        axios.get("http://localhost:8000/divs/"+div).then(res=>{
-          let teams = res.data
+
+      if(div != "n/a"){
+   
+        let teams = await fetch(`/divs/${div}`);
+        teams = await teams.json();
           let i =0
-          for(i in teams){
-            teams[i] = res.data[i].team_abbrev
-            
-          }
-          
+
+          console.log(teams);
           const l = document.getElementById("teams")
           let a =0
           for(a in l.options){
@@ -52,18 +49,15 @@ function TeamRosters() {
           }
           let b =0
           for(b in teams){
-            dynamicTeam(teams[b])
+            dynamicTeam(teams[b].team_abbrev)
           }
-        })
-        
         }
       
-     catch {}
+    
+
   };
 
-  
   const dynamicTeam = (team) => {
-    console.log("HI");
     const l = document.getElementById("teams");
     let node = document.createElement("option");
     node.appendChild(document.createTextNode(team));
@@ -72,13 +66,15 @@ function TeamRosters() {
 
   return (
     <>
+    
+
     <Navigation/>
     
     <div id="App">
     <label id="label">Team Rosters</label>
     <div id="one">
     <select id="divisions" onChange = {searchDivision}>
-              <option value="">--Select A Division--</option>
+              <option value="n/a">--Select A Division--</option>
                 <option value="AFC East">AFC East</option>
                 <option value="AFC North">AFC North</option>
                 <option value="AFC South">AFC South</option>
@@ -100,7 +96,15 @@ function TeamRosters() {
      <ul id="names" ></ul>
     </div>
 
+
+        
+    
     </>
+    
+
+
+        
+    
   );
 }
 export default TeamRosters;
