@@ -34,7 +34,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       //means that the cookie expires after 24 hours, so sessions can be maintained for that long
-      expires: 60 * 60 * 24,
+      expires: 60 * 60 * 24 * 1000,
     },
   })
 );
@@ -232,6 +232,48 @@ app.get("/kick/stats/:player", (req, res) => {
 app.get("/team/stats/:tName", (req, res) => {
   let tName = req.params.tName;
   let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev =  TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.log(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//adds the team to the list of user's favorites
+app.post("/:team/:username", (req, res) => {
+  const username = req.body.username;
+  const team = req.body.team;
+
+  let query = `INSERT INTO Favourites VALUES ("${username}", "${team}") `;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//grabs the favorited teams based on the user name
+app.get("/favorites/:username", (req, res) => {
+  const username = req.params.username;
+  console.log(username);
+
+  let query = `SELECT fav_team_name FROM Favourites WHERE username = "${username}"`;
+  connection.query(query, (err, data) => {
+    if (err) {
+      console.error(err);
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
+//grabs all the team names from the team table
+app.get("/teams", (req, res) => {
+  let query = `SELECT team_abbrev FROM Team`;
   connection.query(query, (err, data) => {
     if (err) {
       console.log(err);

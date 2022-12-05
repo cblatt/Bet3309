@@ -1,0 +1,10 @@
+.dropdown-container {
+  width: 300px;
+}
+ul {
+  list-style-type: none;
+}
+#favoritesTitle{
+    font-family: Impact;
+    font-size: 50px;
+}

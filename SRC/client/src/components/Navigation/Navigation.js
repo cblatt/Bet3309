@@ -27,7 +27,6 @@ export default function Navigation() {
           <NavLink eventKey="5" as={Link} to="/history">
             History
           </NavLink>
-
         </Nav>
       </Navbar.Collapse>
     </Navbar>

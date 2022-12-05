@@ -7,8 +7,9 @@ import Signup from "./Signup/Signup";
 import PlayerSearch from "./Player Search/PlayerSearch";
 import TeamRosters from "./Team Rosters/teamRosters";
 import Standings from "./Standings/Standings";
-import LeagueLeaders from "./League Leaders/LeagueLeaders.js"
+import LeagueLeaders from "./League Leaders/LeagueLeaders.js";
 import History from "./History/History";
+import Favorites from "./Favorites/Favorites";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route exact path="/homepage" element={<Homepage></Homepage>} />
             <Route exact path="/standings" element={<Standings></Standings>} />
             <Route exact path="/history" element={<History></History>} />
+            <Route exact path="/favorites" element={<Favorites></Favorites>} />
             <Route
               exact
               path="/player-search"
@@ -31,13 +33,12 @@ function App() {
               path="/teamRosters"
               element={<TeamRosters></TeamRosters>}
             />
-            <Route 
-            exact
-            path="/league-leaders"
-            element={<LeagueLeaders></LeagueLeaders>}
+            <Route
+              exact
+              path="/league-leaders"
+              element={<LeagueLeaders></LeagueLeaders>}
             />
           </Routes>
-          
         </Router>
       </div>
     </div>
