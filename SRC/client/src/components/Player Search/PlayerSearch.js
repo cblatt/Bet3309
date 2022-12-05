@@ -32,9 +32,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -90,8 +91,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -109,10 +110,12 @@ export default function PlayerSearch() {
                 searchList.appendChild(statsBtn);
                 searchList.appendChild(document.createElement('br'));
                 searchList.appendChild(document.createElement('br'));
+
+                
             }
             var closeBtn = document.createElement('button');
-            closeBtn.style.height = '30px';
-            closeBtn.style.width = '120px';
+            closeBtn.style.height = '45px';
+            closeBtn.style.width = '160px';
             closeBtn.innerHTML= 'Close';
             closeBtn.addEventListener('click', clearLeftList);
             searchList.appendChild(closeBtn);
@@ -133,9 +136,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -161,8 +165,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -197,9 +201,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -221,8 +226,8 @@ export default function PlayerSearch() {
                     
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -257,9 +262,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -300,8 +306,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -355,9 +361,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -413,8 +420,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -434,8 +441,8 @@ export default function PlayerSearch() {
                 searchList.appendChild(document.createElement('br'));
             }
             var closeBtn = document.createElement('button');
-            closeBtn.style.height = '30px';
-            closeBtn.style.width = '120px';
+            closeBtn.style.height = '45px';
+            closeBtn.style.width = '160px';
             closeBtn.innerHTML= 'Close';
             closeBtn.addEventListener('click', clearRightList);
             searchList.appendChild(closeBtn);
@@ -456,9 +463,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -484,8 +492,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -520,9 +528,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -544,8 +553,8 @@ export default function PlayerSearch() {
                     
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
@@ -580,9 +589,10 @@ export default function PlayerSearch() {
                 
 
                 var statsBtn = document.createElement('button');
-                statsBtn.style.height = '30px';
-                statsBtn.style.width = '120px';
+                statsBtn.style.height = '40px';
+                statsBtn.style.width = '150px';
                 statsBtn.innerHTML = 'Get Stats';
+                statsBtn.style.fontSize = '20px'
 
                 statsBtn.addEventListener('click', () => {
 
@@ -623,8 +633,8 @@ export default function PlayerSearch() {
                     statsList.appendChild(document.createElement('br'));
 
                     var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '30px';
-                    closeBtn.style.width = '120px';
+                    closeBtn.style.height = '45px';
+                    closeBtn.style.width = '160px';
                     closeBtn.innerHTML = 'Close';
                     closeBtn.addEventListener('click', () => {
                         while(statsList.firstChild){
