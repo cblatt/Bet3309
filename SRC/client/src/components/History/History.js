@@ -50,7 +50,9 @@ export default function History() {
           Team:
           <select style={{ marginRight:"25px" }}
             id="list-teams"
-
+            onClick={() => {
+                showGames();
+              }}
           >
             <option value="TEAM">Team</option>
             <option value="ARI">ARI</option>
@@ -108,9 +110,9 @@ export default function History() {
         <tbody>
         <tr>
             <th>Home Team</th>
-            <th>Home score</th>
+            <th>Home Score</th>
             <th>Away Team</th>
-            <th>Away score</th>
+            <th>Away Score</th>
             <th>Game Day</th>
             <th>Game Time</th>
           </tr>
