@@ -16,6 +16,9 @@
 }
 #names{
     list-style:none;
+    display:block;
+    
+    
 }
 
 #label{
@@ -27,4 +30,7 @@
 }
 #teams{
     margin-bottom:20px;
+}
+ul.names li:nth-child(odd){
+    background-color: #f2f2f2;
 }
