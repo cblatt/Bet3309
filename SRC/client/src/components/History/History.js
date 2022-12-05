@@ -11,7 +11,7 @@ export default function History() {
   const location = useLocation();
   useEffect(() => {
     getGames();
-    if (location !== null) {
+    if (location.state !== null) {
       document.getElementById("list-teams").value = location.state.teamName;
       document.getElementById("list-years").value = "2022";
       getGames("2022", location.state.teamName);
