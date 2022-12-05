@@ -7,6 +7,7 @@ import Signup from "./Signup/Signup";
 import PlayerSearch from "./Player Search/PlayerSearch";
 import TeamRosters from "./Team Rosters/teamRosters";
 import Standings from "./Standings/Standings";
+import PlayerComparison from "./PlayerComparison/PlayerComparison"
 import LeagueLeaders from "./League Leaders/LeagueLeaders.js"
 import History from "./History/History";
 
@@ -20,6 +21,7 @@ function App() {
             <Route exact path="/signup" element={<Signup></Signup>} />
             <Route exact path="/homepage" element={<Homepage></Homepage>} />
             <Route exact path="/standings" element={<Standings></Standings>} />
+            <Route exact path="/player-comparison" element={<PlayerComparison></PlayerComparison>} />
             <Route exact path="/history" element={<History></History>} />
             <Route
               exact

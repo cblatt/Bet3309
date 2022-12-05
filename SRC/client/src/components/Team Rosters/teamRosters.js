@@ -52,6 +52,7 @@ function TeamRosters() {
             dynamicTeam(teams[b].team_abbrev)
           }
         }
+      
     
 
   };
@@ -65,6 +66,7 @@ function TeamRosters() {
 
   return (
     <>
+    
 
     <Navigation/>
     
@@ -98,6 +100,11 @@ function TeamRosters() {
         
     
     </>
+    
+
+
+        
+    
   );
 }
 export default TeamRosters;
