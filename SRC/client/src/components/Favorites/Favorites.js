@@ -119,33 +119,36 @@ export default function Favorites() {
   }
 
   return (
-    <div id="section">
-      <span
-        style={{
-          fontSize: "25px",
-          fontFamily: "Copperplate",
-          marginLeft: "30px",
-        }}
-      >
-        Favorite a team
-      </span>
-      <br />
-      <div className="favorite-teams">
-        <div className="dropdown-container">
-          <Select
-            options={optionList}
-            placeholder="Select team(s) to favorite"
-            onChange={handleSelect}
-            isSearchable={true}
-            isMulti
-          />
-        </div>
+		<div id="section">
+			<div>
         <br />
-        <button onClick={handleSetTeams}>Save favorites</button>
-      </div>
-      <br />
-      <br />
-      <ul id="favorites"></ul>
-    </div>
-  );
+				<span
+					style={{
+						fontSize: "30px",
+						fontFamily: "Copperplate",
+						marginLeft: "30px",
+					}}>
+					Favorite a team
+				</span>
+			</div>
+
+			<br />
+			<div className="favorite-teams">
+				<div className="dropdown-container">
+					<Select
+						options={optionList}
+						placeholder="Select team(s) to favorite"
+						onChange={handleSelect}
+						isSearchable={true}
+						isMulti
+					/>
+				</div>
+				<br />
+				<button onClick={handleSetTeams}>Save favorites</button>
+			</div>
+			<br />
+			<br />
+			<ul id="favorites"></ul>
+		</div>
+	);
 }

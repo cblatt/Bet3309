@@ -39,7 +39,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES ('softwarejunkemail89','Brayden','Thompsom','softwarejunkemail89@gmail.com','password'),('test','brayden','thompson','bthomp89@uwo.ca','password');
+INSERT INTO `User` VALUES ('softwarejunkemail89','Brayden','Thompsom','softwarejunkemail89@gmail.com','password'),('cblatt','cameron','blatt','cblatt@uwo.ca','123456');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

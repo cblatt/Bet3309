@@ -73,7 +73,7 @@ export default function Login() {
                 type="text"
                 id="username"
                 className="form-control mt-1"
-                placeholder="Enter email"
+                placeholder="Enter Username"
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
@@ -83,7 +83,7 @@ export default function Login() {
                 type="password"
                 id="password"
                 className="form-control mt-1"
-                placeholder="Enter password"
+                placeholder="Enter Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
