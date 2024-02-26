@@ -27,11 +27,12 @@ connection.connect(function (err) {
 
 app.use(
 	cors({
-		origin: ["http://localhost:8000"],
+		origin: ["http://localhost:8000", "https://bet3309-1.vercel.app/"],
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
 );
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
