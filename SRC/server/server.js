@@ -27,7 +27,13 @@ connection.connect(function (err) {
 
 app.use(
 	cors({
-		origin: ["http://localhost:3000", "https://bet3309-1.vercel.app"],
+		origin: [
+			"http://localhost:3000",
+			"https://bet3309-1.vercel.app",
+			"https://bet3309-1-cblatt.vercel.app",
+			"https://bet3309-1-git-main-cblatt.vercel.app/",
+			"https://bet3309-1.onrender.com/",
+		],
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
