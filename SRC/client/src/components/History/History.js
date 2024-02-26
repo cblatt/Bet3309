@@ -40,12 +40,11 @@ export default function History() {
       <div>
         <center>
           <br />
-          <br />
+          
           <span style={{ fontSize: "50px", fontFamily: "Impact" }}>
             History
           </span>
         </center>
-        <Favorites />
         <br />
         <span
           style={{

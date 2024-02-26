@@ -27,9 +27,6 @@ export default function Navigation() {
 					<NavLink eventKey="6" as={Link} to="/history">
 						History
 					</NavLink>
-					<NavLink eventKey="7" as={Link} to="/league-leaders">
-						League Leaders
-					</NavLink>
 					{/* Removed Login and Sign Up Links */}
 					{/* Add any other links you want always visible */}
 				</Nav>

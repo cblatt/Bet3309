@@ -34,7 +34,6 @@ export default function Standings() {
   function showList() {
     const choice = document.getElementById("list-games").value;
     if (choice == "Select") {
-        //Do nothing
     } else if (choice == "Leauge") {
       getLeauge();
     } else if (choice == "AFC" || choice == "NFC") {
