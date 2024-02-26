@@ -16,7 +16,9 @@ export default function Homepage() {
 
 	// Gets all games for selected week
 	const getGames = async (id) => {
-		let result = await fetch(`/current/${id}`);
+		console.log(process.env.REACT_APP_BACKEND_URL);
+		console.log(process.env.DB_HOST);
+		let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/current/${id}`);
 		result = await result.json();
 		setGames(result);
 		console.log(id);
@@ -36,9 +38,11 @@ export default function Homepage() {
 		let home_team = hTeam;
 		let home_spread = 2.5;
 		let away_spread = 0;
-		let game_stats = await fetch(`/predict/${week}/${home_team}`);
+		let game_stats = await fetch(
+			`${process.env.REACT_APP_BACKEND_URL}/predict/${week}/${home_team}`
+		);
 		game_stats = await game_stats.json();
-		let avg_stats = await fetch(`/predict/avg`);
+		let avg_stats = await fetch(`${process.env.REACT_APP_BACKEND_URL}/predict/avg`);
 		avg_stats = await avg_stats.json();
 
 		//stat brackets
