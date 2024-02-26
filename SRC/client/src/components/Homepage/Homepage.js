@@ -16,6 +16,7 @@ export default function Homepage() {
 
 	// Gets all games for selected week
 	const getGames = async (id) => {
+		console.log("Backend URL: " + process.env.REACT_APP_BACKEND_URL);
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/current/${id}`);
 		result = await result.json();
 		setGames(result);
