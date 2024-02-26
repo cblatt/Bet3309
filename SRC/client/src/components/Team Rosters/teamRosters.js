@@ -8,7 +8,7 @@ function TeamRosters() {
     const l = document.getElementById("names");
     const team = document.getElementById("teams").value;
 
-    let players = await fetch(`/roster/${team}`);
+    let players = await fetch(`${process.env.REACT_APP_BACKEND_URL}/roster/${team}`);
     players = await players.json();
 
     let playersNm = [];
@@ -30,7 +30,7 @@ function TeamRosters() {
     const div = document.getElementById("divisions").value;
 
     if (div != "n/a") {
-      let teams = await fetch(`/divs/${div}`);
+      let teams = await fetch(`${process.env.REACT_APP_BACKEND_URL}/divs/${div}`);
       teams = await teams.json();
       let i = 0;
 

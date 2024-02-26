@@ -21,7 +21,7 @@ export default function History() {
 
   //Gets all games for selected week
   const getGames = async (year, team) => {
-    let result = await fetch(`/past/${year}/${team}`);
+    let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/past/${year}/${team}`);
     result = await result.json();
     setgames(result);
   };

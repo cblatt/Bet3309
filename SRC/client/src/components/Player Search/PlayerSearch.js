@@ -22,311 +22,370 @@ export default function PlayerSearch() {
     function leftOffSearch(){
         var input = document.getElementById('leftSearchBar').value;
 
-        fetch('/off/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/off/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("leftSearchList");
 
-            var searchList = document.getElementById('leftSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("leftStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('leftStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode(
+										"Passing Completions: " + data[i].pass_comp + "/" + data[i].pass_att
+									)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Completions: ' + data[i].pass_comp + '/' + data[i].pass_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Completion Percentage: " + data[i].comp_pct + "%")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Completion Percentage: ' + data[i].comp_pct + '%'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards: " + data[i].pass_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards: ' + data[i].pass_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Passing TDs: " + data[i].pass_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing TDs: ' + data[i].pass_td));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Passing INTs: " + data[i].pass_int));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing INTs: ' + data[i].pass_int));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Attempts: " + data[i].rush_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Attempts: ' + data[i].rush_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards: " + data[i].rush_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards: ' + data[i].rush_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Yards Per Rush: " + data[i].rush_avg)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Yards Per Rush: ' + data[i].rush_avg));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Rushing TDs: " + data[i].rush_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing TDs: ' + data[i].rush_td));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Targets: " + data[i].tar));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Targets: ' + data[i].tar));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Receptions: " + data[i].rec));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receptions: ' + data[i].rec));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Receiving Yards: " + data[i].rec_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receiving Yards: ' + data[i].rec_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Yards Per Reception: " + data[i].rec_avg)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Yards Per Reception: ' + data[i].rec_avg));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Receiving TDs: " + data[i].rec_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receiving TDs: ' + data[i].rec_td));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-
-                
-            }
-            var closeBtn = document.createElement('button');
-            closeBtn.style.height = '45px';
-            closeBtn.style.width = '160px';
-            closeBtn.innerHTML= 'Close';
-            closeBtn.addEventListener('click', clearLeftList);
-            searchList.appendChild(closeBtn);
-            searchList.appendChild(document.createElement('br'));
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+						var closeBtn = document.createElement("button");
+						closeBtn.style.height = "45px";
+						closeBtn.style.width = "160px";
+						closeBtn.innerHTML = "Close";
+						closeBtn.addEventListener("click", clearLeftList);
+						searchList.appendChild(closeBtn);
+						searchList.appendChild(document.createElement("br"));
+					})
+				);
     };
 
     function leftDefSearch(){
         var input = document.getElementById('leftSearchBar').value;
 
-        fetch('/def/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/def/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("leftSearchList");
 
-            var searchList = document.getElementById('leftSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("leftStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('leftStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Tackles: " + data[i].def_tackles));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Tackles: ' + data[i].def_tackles));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Sacks: " + data[i].def_sacks));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Sacks: ' + data[i].def_sacks));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Interceptions: " + data[i].def_int));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Interceptions: ' + data[i].def_int));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Touchdowns: " + data[i].def_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Touchdowns: ' + data[i].def_td));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
     function leftKickSearch(){
         var input = document.getElementById('leftSearchBar').value;
 
-        fetch('/kick/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/kick/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("leftSearchList");
 
-            var searchList = document.getElementById('leftSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("leftStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('leftStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Extra Points: " + data[i].xp_made + "/" + data[i].xp_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Extra Points: ' + data[i].xp_made + '/' + data[i].xp_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Field Goals: " + data[i].fg_made + "/" + data[i].fg_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Field Goals: ' + data[i].fg_made + '/' + data[i].fg_att));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    
-
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
     function leftTeamSearch(){
         var input = document.getElementById('leftSearchBar').value;
 
-        fetch('/team/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/team/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("leftSearchList");
 
-            var searchList = document.getElementById('leftSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].team_city + " " + data[i].team_name + "\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].team_city + ' ' + data[i].team_name + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("leftStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('leftStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].team_city + " " + data[i].team_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].team_city + ' ' + data[i].team_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode(
+										"Record: " +
+											data[i].games_won +
+											"-" +
+											data[i].games_lost +
+											"-" +
+											data[i].games_tied
+									)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Record: ' + data[i].games_won + '-' + data[i].games_lost + '-' + data[i].games_tied));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Points For: " + data[i].points_for));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Points For: ' + data[i].points_for));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards: " + data[i].rush_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards: ' + data[i].rush_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards: " + data[i].pass_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards: ' + data[i].pass_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Total Yards: " + data[i].total_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Total Yards: ' + data[i].total_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Points Against: " + data[i].points_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Points Against: ' + data[i].points_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards Against: " + data[i].rush_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards Against: ' + data[i].rush_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards Against: " + data[i].pass_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards Against: ' + data[i].pass_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Total Yards Against: " + data[i].total_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Total Yards Against: ' + data[i].total_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
 
@@ -351,309 +410,370 @@ export default function PlayerSearch() {
     function rightOffSearch(){
         var input = document.getElementById('rightSearchBar').value;
 
-        fetch('/off/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/off/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("rightSearchList");
 
-            var searchList = document.getElementById('rightSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("rightStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('rightStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode(
+										"Passing Completions: " + data[i].pass_comp + "/" + data[i].pass_att
+									)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Completions: ' + data[i].pass_comp + '/' + data[i].pass_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Completion Percentage: " + data[i].comp_pct + "%")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Completion Percentage: ' + data[i].comp_pct + '%'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards: " + data[i].pass_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards: ' + data[i].pass_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Passing TDs: " + data[i].pass_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing TDs: ' + data[i].pass_td));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Passing INTs: " + data[i].pass_int));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing INTs: ' + data[i].pass_int));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Attempts: " + data[i].rush_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Attempts: ' + data[i].rush_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards: " + data[i].rush_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards: ' + data[i].rush_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Yards Per Rush: " + data[i].rush_avg)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Yards Per Rush: ' + data[i].rush_avg));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Rushing TDs: " + data[i].rush_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing TDs: ' + data[i].rush_td));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Targets: " + data[i].tar));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Targets: ' + data[i].tar));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Receptions: " + data[i].rec));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receptions: ' + data[i].rec));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Receiving Yards: " + data[i].rec_yds)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receiving Yards: ' + data[i].rec_yds));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Yards Per Reception: " + data[i].rec_avg)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Yards Per Reception: ' + data[i].rec_avg));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Receiving TDs: " + data[i].rec_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Receiving TDs: ' + data[i].rec_td));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-            var closeBtn = document.createElement('button');
-            closeBtn.style.height = '45px';
-            closeBtn.style.width = '160px';
-            closeBtn.innerHTML= 'Close';
-            closeBtn.addEventListener('click', clearRightList);
-            searchList.appendChild(closeBtn);
-            searchList.appendChild(document.createElement('br'));
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+						var closeBtn = document.createElement("button");
+						closeBtn.style.height = "45px";
+						closeBtn.style.width = "160px";
+						closeBtn.innerHTML = "Close";
+						closeBtn.addEventListener("click", clearRightList);
+						searchList.appendChild(closeBtn);
+						searchList.appendChild(document.createElement("br"));
+					})
+				);
     };
 
     function rightDefSearch(){
         var input = document.getElementById('rightSearchBar').value;
 
-        fetch('/def/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/def/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("rightSearchList");
 
-            var searchList = document.getElementById('rightSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("rightStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('rightStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Tackles: " + data[i].def_tackles));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Tackles: ' + data[i].def_tackles));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Sacks: " + data[i].def_sacks));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Sacks: ' + data[i].def_sacks));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Interceptions: " + data[i].def_int));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Interceptions: ' + data[i].def_int));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Touchdowns: " + data[i].def_td));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Touchdowns: ' + data[i].def_td));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
     function rightKickSearch(){
         var input = document.getElementById('rightSearchBar').value;
 
-        fetch('/kick/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/kick/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("rightSearchList");
 
-            var searchList = document.getElementById('rightSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].pf_name +
+										" " +
+										data[i].pl_name +
+										" (" +
+										data[i].team_name +
+										") " +
+										"\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name + ' (' + data[i].team_name + ') ' + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("rightStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('rightStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].pf_name + " " + data[i].pl_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].pf_name + ' ' + data[i].pl_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Extra Points: " + data[i].xp_made + "/" + data[i].xp_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Extra Points: ' + data[i].xp_made + '/' + data[i].xp_att));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Field Goals: " + data[i].fg_made + "/" + data[i].fg_att)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Field Goals: ' + data[i].fg_made + '/' + data[i].fg_att));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    
-
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
     function rightTeamSearch(){
         var input = document.getElementById('rightSearchBar').value;
 
-        fetch('/team/stats/' + input).then((res) =>
-        res.json().then((data) => {
+        fetch(`${process.env.REACT_APP_BACKEND_URL}/team/stats/` + input).then((res) =>
+					res.json().then((data) => {
+						var searchList = document.getElementById("rightSearchList");
 
-            var searchList = document.getElementById('rightSearchList');
+						for (let i = 0; i < data.length; i++) {
+							searchList.appendChild(
+								document.createTextNode(
+									data[i].team_city + " " + data[i].team_name + "\xa0\xa0\xa0"
+								)
+							);
 
-            for(let i=0; i<data.length; i++){
-                searchList.appendChild(document.createTextNode(data[i].team_city + ' ' + data[i].team_name + '\xa0\xa0\xa0'));
-                
+							var statsBtn = document.createElement("button");
+							statsBtn.style.height = "40px";
+							statsBtn.style.width = "150px";
+							statsBtn.innerHTML = "Get Stats";
+							statsBtn.style.fontSize = "20px";
 
-                var statsBtn = document.createElement('button');
-                statsBtn.style.height = '40px';
-                statsBtn.style.width = '150px';
-                statsBtn.innerHTML = 'Get Stats';
-                statsBtn.style.fontSize = '20px'
+							statsBtn.addEventListener("click", () => {
+								var statsList = document.getElementById("rightStatsList");
 
-                statsBtn.addEventListener('click', () => {
+								while (statsList.firstChild) {
+									statsList.removeChild(statsList.firstChild);
+								}
 
-                    var statsList = document.getElementById('rightStatsList');
-                    
-                    while(statsList.firstChild){
-                        statsList.removeChild(statsList.firstChild);
-                    }
+								statsList.appendChild(
+									document.createTextNode(data[i].team_city + " " + data[i].team_name + " Stats:")
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode(data[i].team_city + ' ' + data[i].team_name +  ' Stats:'));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode(
+										"Record: " +
+											data[i].games_won +
+											"-" +
+											data[i].games_lost +
+											"-" +
+											data[i].games_tied
+									)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Record: ' + data[i].games_won + '-' + data[i].games_lost + '-' + data[i].games_tied));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(document.createTextNode("Points For: " + data[i].points_for));
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Points For: ' + data[i].points_for));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards: " + data[i].rush_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards: ' + data[i].rush_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards: " + data[i].pass_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards: ' + data[i].pass_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Total Yards: " + data[i].total_yards)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Total Yards: ' + data[i].total_yards));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Points Against: " + data[i].points_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Points Against: ' + data[i].points_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Rushing Yards Against: " + data[i].rush_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Rushing Yards Against: ' + data[i].rush_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Passing Yards Against: " + data[i].pass_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Passing Yards Against: ' + data[i].pass_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								statsList.appendChild(
+									document.createTextNode("Total Yards Against: " + data[i].total_yards_against)
+								);
+								statsList.appendChild(document.createElement("br"));
 
-                    statsList.appendChild(document.createTextNode('Total Yards Against: ' + data[i].total_yards_against));
-                    statsList.appendChild(document.createElement('br'));
+								var closeBtn = document.createElement("button");
+								closeBtn.style.height = "45px";
+								closeBtn.style.width = "160px";
+								closeBtn.innerHTML = "Close";
+								closeBtn.addEventListener("click", () => {
+									while (statsList.firstChild) {
+										statsList.removeChild(statsList.firstChild);
+									}
+								});
+								statsList.appendChild(document.createElement("br"));
+								statsList.appendChild(closeBtn);
+							});
 
-                    var closeBtn = document.createElement('button');
-                    closeBtn.style.height = '45px';
-                    closeBtn.style.width = '160px';
-                    closeBtn.innerHTML = 'Close';
-                    closeBtn.addEventListener('click', () => {
-                        while(statsList.firstChild){
-                            statsList.removeChild(statsList.firstChild);
-                        }
-                    });
-                    statsList.appendChild(document.createElement('br'));
-                    statsList.appendChild(closeBtn);
-
-
-
-                    
-                })
-
-                searchList.appendChild(statsBtn);
-                searchList.appendChild(document.createElement('br'));
-                searchList.appendChild(document.createElement('br'));
-            }
-        }))
+							searchList.appendChild(statsBtn);
+							searchList.appendChild(document.createElement("br"));
+							searchList.appendChild(document.createElement("br"));
+						}
+					})
+				);
     };
 
 

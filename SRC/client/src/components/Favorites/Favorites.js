@@ -32,16 +32,16 @@ export default function Favorites() {
 
   useEffect(() => {
     //sets the teams in the dropdown menu
-    fetch("/teams")
-      .then((res) => res.json())
-      .then((data) => {
-        for (let i = 0; i < data.length; i++) {
-          optionList.push({
-            value: data[i].team_abbrev,
-            label: data[i].team_abbrev,
-          });
-        }
-      });
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/teams`)
+			.then((res) => res.json())
+			.then((data) => {
+				for (let i = 0; i < data.length; i++) {
+					optionList.push({
+						value: data[i].team_abbrev,
+						label: data[i].team_abbrev,
+					});
+				}
+			});
     showUserFavorites();
   }, [handleSelect]);
 
@@ -49,48 +49,49 @@ export default function Favorites() {
   async function showUserFavorites() {
     if (username !== null) {
       console.log("the username", username);
-      fetch(`/favorites/${username}`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          const l = document.getElementById("favorites");
-          while (l.hasChildNodes()) {
-            l.removeChild(l.firstChild);
-          }
-          for (let i = 0; i < data.length; i++) {
-            console.log(data[i].fav_team_name);
-            const li = document.createElement("li");
-            li.appendChild(
-              document.createTextNode(data[i].fav_team_name + ": ")
-            );
-            l.appendChild(li);
-            l.appendChild(document.createElement("br"));
-            const showTeamStatsBtn = document.createElement("button");
-            showTeamStatsBtn.id = data[i].fav_team_name;
-            showTeamStatsBtn.innerText = `${showTeamStatsBtn.id} schedule`;
-            l.appendChild(showTeamStatsBtn);
-            const deleteBtn = document.createElement("button");
-            deleteBtn.id = data[i].fav_team_name;
-            deleteBtn.innerText = `Unfavorite`;
-            l.appendChild(deleteBtn);
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/favorites/${username}`)
+				.then((res) => res.json())
+				.then((data) => {
+					console.log(data);
+					const l = document.getElementById("favorites");
+					while (l.hasChildNodes()) {
+						l.removeChild(l.firstChild);
+					}
+					for (let i = 0; i < data.length; i++) {
+						console.log(data[i].fav_team_name);
+						const li = document.createElement("li");
+						li.appendChild(document.createTextNode(data[i].fav_team_name + ": "));
+						l.appendChild(li);
+						l.appendChild(document.createElement("br"));
+						const showTeamStatsBtn = document.createElement("button");
+						showTeamStatsBtn.id = data[i].fav_team_name;
+						showTeamStatsBtn.innerText = `${showTeamStatsBtn.id} schedule`;
+						l.appendChild(showTeamStatsBtn);
+						const deleteBtn = document.createElement("button");
+						deleteBtn.id = data[i].fav_team_name;
+						deleteBtn.innerText = `Unfavorite`;
+						l.appendChild(deleteBtn);
 
-            showTeamStatsBtn.addEventListener("click", () => {
-              const value = showTeamStatsBtn.id;
-              navigate("/history", { state: { teamName: value } });
-            });
+						showTeamStatsBtn.addEventListener("click", () => {
+							const value = showTeamStatsBtn.id;
+							navigate("/history", { state: { teamName: value } });
+						});
 
-            deleteBtn.addEventListener("click", () => {
-              fetch(`/unfavorite/${username}/${showTeamStatsBtn.id}`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  "Content-length": 2,
-                },
-              });
-              refresh();
-            });
-          }
-        });
+						deleteBtn.addEventListener("click", () => {
+							fetch(
+								`${process.env.REACT_APP_BACKEND_URL}/unfavorite/${username}/${showTeamStatsBtn.id}`,
+								{
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+										"Content-length": 2,
+									},
+								}
+							);
+							refresh();
+						});
+					}
+				});
     }
   }
 
@@ -102,18 +103,18 @@ export default function Favorites() {
   function handleSetTeams() {
     for (let i = 0; i < selectedOptions.length; i++) {
       console.log(selectedOptions[i].value);
-      fetch(`/team/username`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Content-length": 2,
-        },
-        //{
-        body: JSON.stringify({
-          team: selectedOptions[i].value,
-          username: username,
-        }),
-      });
+      fetch(`${process.env.REACT_APP_BACKEND_URL}/team/username`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Content-length": 2,
+				},
+				//{
+				body: JSON.stringify({
+					team: selectedOptions[i].value,
+					username: username,
+				}),
+			});
     }
     refresh();
   }

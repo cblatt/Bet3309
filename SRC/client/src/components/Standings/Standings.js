@@ -15,17 +15,17 @@ export default function Standings() {
 
   //Gets all games for selected week
   const getLeauge = async (id) => {
-    let result = await fetch(`/standings/leauge`);
+    let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/standings/leauge`);
     result = await result.json();
     setstand(result);
   };
   const getConfrence = async (id) => {
-    let result = await fetch(`/standings/confrence/${id}`);
+    let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/standings/confrence/${id}`);
     result = await result.json();
     setstand(result);
   };
   const getDivison = async (id) => {
-    let result = await fetch(`/standings/division/${id}`);
+    let result = await fetch(`${process.env.REACT_APP_BACKEND_URL}/standings/division/${id}`);
     result = await result.json();
     setstand(result);
   };
