@@ -387,6 +387,9 @@ app.get("/off/pass_yds", (req, res) => {
 		res.send(data);
 	});
 });
+app.get("/", (req, res) => {
+	res.json({ message: "Welcome to My API" });
+});
 app.get("/off/rec_yds", (req, res) => {
 	let query = `SELECT pf_name, pl_name, rec_yds FROM OffensiveFootballPlayer ORDER BY rec_yds DESC LIMIT 15`;
 	connection.query(query, (err, data) => {
