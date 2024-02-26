@@ -205,7 +205,7 @@ export default function Favorites() {
 	};
 
 	const handleShowSchedule = (teamValue) => {
-		navigate(`/schedule/${teamValue}`);
+    navigate("/history", { state: { teamName: teamValue } });
 	};
 
 	return (
