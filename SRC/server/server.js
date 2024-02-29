@@ -10,38 +10,73 @@ const session = require("express-session");
 
 const app = express();
 
-const connection = mysql.createConnection({
-	host: process.env.DB_HOST,
-	user: process.env.DB_USER,
-	password: process.env.DB_PASSWORD,
-	database: process.env.DB_DATABASE,
-	port: process.env.DB_PORT
+// const connection = mysql.createConnection({
+// 	host: process.env.DB_HOST,
+// 	user: process.env.DB_USER,
+// 	password: process.env.DB_PASSWORD,
+// 	database: process.env.DB_DATABASE,
+// 	port: process.env.DB_PORT
+// });
+
+// connection.connect(function (err) {
+// 	if (err) console.log('ERROR');
+// 	else{
+//     console.log("CONNECTED");
+//   }
+// });
+
+// app.use(
+// 	cors({
+// 		origin: [
+// 			"http://localhost:3000",
+// 			"https://bet3309-1.vercel.app",
+// 			"https://bet3309-1-cblatt.vercel.app",
+// 			"https://bet3309-1-git-main-cblatt.vercel.app/",
+// 			"https://bet3309-1.onrender.com/",
+// 		],
+// 		methods: ["GET", "POST"],
+// 		credentials: true,
+// 	})
+// );
+
+// app.use(express.json());
+// app.use(cookieParser());
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+
+// Initialize pool instead of a single connection
+const pool = mysql.createPool({
+    connectionLimit: 100,
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    port: process.env.DB_PORT
 });
 
-connection.connect(function (err) {
-	if (err) console.log('ERROR');
-	else{
-    console.log("CONNECTED");
-  }
-});
-
-app.use(
-	cors({
-		origin: [
-			"http://localhost:3000",
-			"https://bet3309-1.vercel.app",
-			"https://bet3309-1-cblatt.vercel.app",
-			"https://bet3309-1-git-main-cblatt.vercel.app/",
-			"https://bet3309-1.onrender.com/",
-		],
-		methods: ["GET", "POST"],
-		credentials: true,
-	})
-);
-
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://bet3309-1.vercel.app",
+        "https://bet3309-1-cblatt.vercel.app",
+        "https://bet3309-1-git-main-cblatt.vercel.app/",
+        "https://bet3309-1.onrender.com/",
+    ],
+    methods: ["GET", "POST"],
+    credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    key: "userId",
+    secret: "3316aztdcb",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 60 * 60 * 24 * 1000,
+    },
+}));
 
 app.use(
 	session({
@@ -87,11 +122,19 @@ app.get("/current/:week", (req, res) => {
   FROM (Game g JOIN Team t ON g.home_team = t.team_abbrev JOIN Team tt ON g.away_team = tt.team_abbrev) 
   WHERE g.game_id LIKE '%2022_${week}%'`;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
@@ -116,11 +159,19 @@ app.get("/predict/:week/:home_team", (req, res) => {
   FROM (Game g JOIN Team h ON g.home_team = h.team_abbrev JOIN Team a ON g.away_team = a.team_abbrev) 
   WHERE g.game_id LIKE '%2022_${week}%' AND home_team LIKE '${home_team}';`;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
@@ -128,11 +179,19 @@ app.get("/predict/avg", (req, res) => {
 	//for this to work you must have LeaugeAverages view
 	let query = `SELECT * FROM LeaugeAverages`;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
@@ -142,11 +201,19 @@ app.get("/past/:year/:team", (req, res) => {
 	let query = `SELECT g.game_id, g.game_day, g.game_time, g.away_team, g.home_team, g.away_score, g.home_score
   FROM Game g WHERE g.game_id LIKE '%${team}%' AND g.game_id LIKE '%${year}%' `;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
@@ -162,24 +229,40 @@ app.get("/roster/:t_name", (req, res) => {
         UNION
 
         (SELECT team_name, pf_name, pl_name FROM Kicker AS kickPlayer)) AS teamRoster WHERE team_name= "${t_name}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 app.get("/divs/:d_name", (req, res) => {
 	let d_name = req.params.d_name;
 
 	let query = `SELECT team_abbrev FROM Team WHERE div_name = "${d_name}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
@@ -187,11 +270,19 @@ app.get("/divs/:d_name", (req, res) => {
 app.get("/standings/leauge", (req, res) => {
 	let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev) ORDER BY t.games_won DESC`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 //Getting standing for confrence
@@ -199,11 +290,19 @@ app.get("/standings/confrence/:cnf", (req, res) => {
 	let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev) WHERE d.conf_name = "${req.params.cnf}" ORDER BY t.games_won DESC`;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 //Getting standing for division
@@ -211,58 +310,98 @@ app.get("/standings/division/:div", (req, res) => {
 	let query = `SELECT t.team_abbrev, t.team_city, ta.team_name, d.div_name, d.conf_name, t.games_won, t.games_lost, t.games_tied 
   FROM (Team t JOIN Division d ON t.div_name = d.div_name JOIN TeamAbbreviation ta ON ta.team_abbrev = t.team_abbrev)  WHERE d.div_name = "${req.params.div}" ORDER BY t.games_won DESC`;
 
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		res.status(400).send(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
 			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
 app.get("/off/stats/:player", (req, res) => {
 	let player = req.params.player;
 	let query = `SELECT * FROM OffensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		res.send(data);
 	});
 });
 
 app.get("/def/stats/:player", (req, res) => {
 	let player = req.params.player;
 	let query = `SELECT * FROM DefensiveFootballPlayer WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
 app.get("/kick/stats/:player", (req, res) => {
 	let player = req.params.player;
 	let query = `SELECT * FROM Kicker WHERE pl_name LIKE "%${player}%" OR pf_name LIKE "%${player}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
 app.get("/team/stats/:tName", (req, res) => {
 	let tName = req.params.tName;
 	let query = `SELECT * FROM Team INNER JOIN TeamAbbreviation ON Team.team_abbrev = TeamAbbreviation.team_abbrev WHERE team_name LIKE "%${tName}%" OR team_city LIKE "%${tName}%" OR Team.team_abbrev LIKE "%${tName}%"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
@@ -272,12 +411,20 @@ app.get("/playerAndTeam/:player", (req, res) => {
 	let query = `SELECT o.pf_name, o.pl_name, o.team_name, o.pass_yds, o.rec_yds,
   o.rush_yds, (o.pass_td + o.rec_td + o.rush_td) AS td, t.points_for, t.pass_yards, t.pass_yards AS rec_yards, t.rush_yards
   FROM (OffensiveFootballPlayer o JOIN Team t ON o.team_name = t.team_abbrev) WHERE pf_name LIKE "%${player}%" OR pl_name LIKE "%${player}%"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
@@ -287,12 +434,20 @@ app.post("/:team/:username", (req, res) => {
 	const team = req.body.team;
 
 	let query = `INSERT INTO Favourites VALUES ("${username}", "${team}") `;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
@@ -302,24 +457,40 @@ app.get("/favorites/:username", (req, res) => {
 	console.log(username);
 
 	let query = `SELECT fav_team_name FROM Favourites WHERE username = "${username}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
 //grabs all the team names from the team table
 app.get("/teams", (req, res) => {
 	let query = `SELECT team_abbrev FROM Team`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
@@ -327,71 +498,87 @@ app.post("/unfavorite/:user/:team", (req, res) => {
 	const user = req.params.user;
 	const team = req.params.team;
 	let query = `DELETE FROM Favourites WHERE username="${user}" AND fav_team_name="${team}"`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.log(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.log(err);
-		}
-		console.log(data);
-		res.send(data);
-	});
-});
-
-app.post("/login", (req, res) => {
-	const username = req.body.username;
-	const password = req.body.password;
-	console.log(username);
-	console.log(password);
-
-	let query = `SELECT * FROM User WHERE username = "${username}" AND password = "${password}"`;
-
-	connection.query(query, (err, result) => {
-		if (err) {
-			res.send({ err: err });
-		}
-		//there is someone in the db with that username/password combination
-		if (result.length > 0) {
-			req.session.user = result;
-			console.log(req.session.user);
-			res.json({ auth: true, result: result });
+			res.status(400).send(err);
 		} else {
-			//happens if no user exists
-			res.json({ auth: false, message: "No user exists" });
+			res.send(data);
 		}
 	});
 });
 
-app.get("/login", (req, res) => {
-	if (req.session.user) {
-		res.send({ loggedIn: true, user: req.session.user });
-	} else {
-		res.send({ loggedIn: false });
-	}
-});
+// app.post("/login", (req, res) => {
+// 	const username = req.body.username;
+// 	const password = req.body.password;
+// 	console.log(username);
+// 	console.log(password);
 
-app.post("/register", (req, res) => {
-	const username = req.body.username;
-	const uf_Name = req.body.uf_Name;
-	const ul_Name = req.body.ul_Name;
-	const email = req.body.email;
-	const password = req.body.password;
+// 	let query = `SELECT * FROM User WHERE username = "${username}" AND password = "${password}"`;
 
-	let query = `INSERT INTO User VALUES ("${username}", "${uf_Name}", "${ul_Name}", "${email}", "${password}")`;
-	connection.query(query, (err, data) => {
-		if (err) {
-			console.error(err);
-		}
-		console.log(data);
-		res.send(data);
-	});
-});
+// 	connection.query(query, (err, result) => {
+// 		if (err) {
+// 			res.send({ err: err });
+// 		}
+// 		//there is someone in the db with that username/password combination
+// 		if (result.length > 0) {
+// 			req.session.user = result;
+// 			console.log(req.session.user);
+// 			res.json({ auth: true, result: result });
+// 		} else {
+// 			//happens if no user exists
+// 			res.json({ auth: false, message: "No user exists" });
+// 		}
+// 	});
+// });
+
+// app.get("/login", (req, res) => {
+// 	if (req.session.user) {
+// 		res.send({ loggedIn: true, user: req.session.user });
+// 	} else {
+// 		res.send({ loggedIn: false });
+// 	}
+// });
+
+// app.post("/register", (req, res) => {
+// 	const username = req.body.username;
+// 	const uf_Name = req.body.uf_Name;
+// 	const ul_Name = req.body.ul_Name;
+// 	const email = req.body.email;
+// 	const password = req.body.password;
+
+// 	let query = `INSERT INTO User VALUES ("${username}", "${uf_Name}", "${ul_Name}", "${email}", "${password}")`;
+// 	connection.query(query, (err, data) => {
+// 		if (err) {
+// 			console.error(err);
+// 		}
+// 		console.log(data);
+// 		res.send(data);
+// 	});
+// });
 app.get("/off/pass_yds", (req, res) => {
 	let query = `SELECT pf_name, pl_name, pass_yds FROM OffensiveFootballPlayer ORDER BY pass_yds DESC LIMIT 15`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 app.get("/", (req, res) => {
@@ -399,22 +586,38 @@ app.get("/", (req, res) => {
 });
 app.get("/off/rec_yds", (req, res) => {
 	let query = `SELECT pf_name, pl_name, rec_yds FROM OffensiveFootballPlayer ORDER BY rec_yds DESC LIMIT 15`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 app.get("/off/rush_yds", (req, res) => {
 	let query = `SELECT pf_name, pl_name, rush_yds FROM OffensiveFootballPlayer ORDER BY rush_yds DESC LIMIT 15`;
-	connection.query(query, (err, data) => {
+	// connection.query(query, (err, data) => {
+	// 	if (err) {
+	// 		console.error(err);
+	// 	}
+	// 	console.log(data);
+	// 	res.send(data);
+	// });
+
+	pool.query(query, (err, data) => {
 		if (err) {
-			console.error(err);
+			res.status(400).send(err);
+		} else {
+			res.send(data);
 		}
-		console.log(data);
-		res.send(data);
 	});
 });
 
